@@ -1,8 +1,8 @@
-let mainMenuState = function() {
+let MainMenuState = function() {
 };
 
-mainMenuState.prototype.preload = function() {
+MainMenuState.prototype.preload = function() {
 };
 
-mainMenuState.prototype.create = function() {
+MainMenuState.prototype.create = function() {
 };

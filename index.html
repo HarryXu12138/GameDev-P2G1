@@ -4,6 +4,7 @@
 	<meta charset="UTF-8" />
     <title>Phaser Game</title>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="js/preloadState.js"></script>
     <script type="text/javascript" src="js/MainMenuState.js"></script>
     <style type="text/css">
         body {
@@ -15,8 +16,9 @@
 
 <script type="text/javascript">
 	let game = new Phaser.Game(800, 600, Phaser.AUTO);
-    game.state.add("MainMenuState", mainMenuState);
-    game.state.start("MainMenuState");
+    game.state.add("PreloadState", PreloadState)
+    game.state.add("MainMenuState", MainMenuState);
+    game.state.start("PreloadState");
 </script>
 
 </body>
