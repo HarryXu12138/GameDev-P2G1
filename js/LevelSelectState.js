@@ -20,5 +20,6 @@ LevelSelectState.prototype.initializeUI = function() {
 };
 
 LevelSelectState.prototype.hitLevel1Button = function() {
+	game.state.start("GameState", true, false, 1);
     alert('Enter level 1');
 };

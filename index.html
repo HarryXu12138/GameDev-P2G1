@@ -3,10 +3,12 @@
 <head>
 	<meta charset="UTF-8" />
     <title>Phaser Game</title>
+    <script type="text/javascript" src="js/GameState.js"></script>
 	<script type="text/javascript" src="js/phaser.min.js"></script>
     <script type="text/javascript" src="js/PreloadState.js"></script>
     <script type="text/javascript" src="js/MainMenuState.js"></script>
     <script type="text/javascript" src="js/LevelSelectState.js"></script>
+
     <style type="text/css">
         body {
             margin: 0;
@@ -20,6 +22,7 @@
     game.state.add("PreloadState", PreloadState);
     game.state.add("MainMenuState", MainMenuState);
     game.state.add("LevelSelectState", LevelSelectState);
+    game.state.add("GameState", gamePlayState);
     game.state.start("PreloadState");
 </script>
 
