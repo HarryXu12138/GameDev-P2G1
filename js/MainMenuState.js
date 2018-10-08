@@ -22,4 +22,5 @@ MainMenuState.prototype.create = function() {
 
 function hitStartBotton() {
     alert('Hello world!');
+    game.state.start("LevelState");
 }
