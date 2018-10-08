@@ -2,24 +2,37 @@ let MainMenuState = function() {
 };
 
 MainMenuState.prototype.preload = function() {
-    this.startButtonPosition = [0.4 * game.width, 0.8 * game.height]
+    this.UISettings();
 };
 
 MainMenuState.prototype.create = function() {
-    this.startButton = game.add.button(this.startButtonPosition[0], this.startButtonPosition[1],
-        'StartBotton', hitStartBotton, this);
-    this.startButton.width = 200;
-    this.startButton.height = this.startButton.width;
-    let textConfig = {
+    this.initializeUI();
+};
+
+MainMenuState.prototype.UISettings = function() {
+    this.startButtonPosition = [0.5 * game.width, 0.85 * game.height]
+    this.titleTextPosition = [0.5 * game.width, 0.15 * game.height]
+    this.titleText = 'Game Name';
+    this.titleTextConfig = {
         font: '100px Arial',
         align: 'center',
         fontSize: 100,
-        fill: 'white',
+        fill: 'white'
     };
-    this.titleText = game.add.text(200, 200, 'Game Name', textConfig);
-
 };
 
-function hitStartBotton() {
-    alert('Hello world!');
-}
+MainMenuState.prototype.initializeUI = function() {
+    this.startButton = game.add.button(this.startButtonPosition[0], this.startButtonPosition[1],
+        'StartBotton', this.hitStartBotton, this);
+    this.startButton.width = 200;
+    this.startButton.height = this.startButton.width;
+    this.startButton.anchor.setTo(0.5, 0.5);
+
+    this.titleText = game.add.text(this.titleTextPosition[0], this.titleTextPosition[1],
+        this.titleText, this.titleTextConfig);
+    this.titleText.anchor.setTo(0.5, 0.5);
+};
+
+MainMenuState.prototype.hitStartBotton = function() {
+    game.state.start('LevelSelectState');
+};
