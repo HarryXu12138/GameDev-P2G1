@@ -2,11 +2,19 @@ let MainMenuState = function() {
 };
 
 MainMenuState.prototype.preload = function() {
+    game.stage.backgroundColor = 0xff0000;
+    this.colors = [0x000000, 0xFFFFFF, 0xFF0000, 0x00FF00, 0x0000FF, 0x00FFFF];
     this.UISettings();
 };
 
 MainMenuState.prototype.create = function() {
     this.initializeUI();
+};
+
+MainMenuState.prototype.update = function() {
+    if (game.time.totalElapsedSeconds() % 1 < 0.1) {
+        game.stage.backgroundColor = Phaser.ArrayUtils.getRandomItem(this.colors);
+    }
 };
 
 MainMenuState.prototype.UISettings = function() {
@@ -16,13 +24,8 @@ MainMenuState.prototype.UISettings = function() {
     this.startButtonSpriteFrames = [1, 0, 1, 0];
 
     this.titleTextPosition = [0.5 * game.width, 0.15 * game.height];
-    this.titleText = 'Game Name';
-    this.titleTextConfig = {
-        font: '100px Arial',
-        align: 'center',
-        fontSize: 100,
-        fill: 'white'
-    };
+    this.titleText = 'Game Name\nGoes Here';
+    this.titleSize = 128;
 
     this.aboutButtonPosition = [0.5 * game.width, 0.95 * game.height];
     this.aboutButtonShape = [100, 100];
@@ -37,9 +40,10 @@ MainMenuState.prototype.initializeUI = function() {
     this.addButton(this.aboutButtonPosition, this.aboutButtonShape,
         this.aboutButtonSprite, this.aboutButtonSpriteFrames, this.hitAboutButton);
 
-    this.titleText = game.add.text(this.titleTextPosition[0], this.titleTextPosition[1],
-        this.titleText, this.titleTextConfig);
-    this.titleText.anchor.setTo(0.5, 0.5);
+    let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
+        'DefaultFont', this.titleText, this.titleSize);
+    titleText.align = 'center';
+    titleText.anchor.setTo(0.5, 0.5);
 };
 
 MainMenuState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
