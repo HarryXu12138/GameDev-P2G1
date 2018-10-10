@@ -7,8 +7,10 @@ let levelNumber = 0;
 let lineInfo = [];
 let d = new Date();
 let timeSince = d.getTime();
-let lineNumber = 0;
+let lineNumber = 1;
 let spawning = true;
+let bpm = 0;
+let beatline = 0;
 
 gamePlayState.prototype.init = function(levelNum){
 	levelNumber = levelNum;
@@ -17,16 +19,23 @@ gamePlayState.prototype.init = function(levelNum){
 gamePlayState.prototype.create = function(){
 	console.info(levelNumber);
 
+	game.stage.backgroundColor = "#4488AA";
+
 	//Pull info file for this level out of the cache and load it into line info, splitting it per line
 	let infoFile = this.cache.getText("" + levelNumber);
 	lineInfo = infoFile.split("\n");
+	bpm = parseInt(lineInfo[0]);
+
+	console.info(bpm);
 
 	//Set up the group for notes
 	this.notes = game.add.group();
 
+	//Set up the group for obstacles
+	this.obstacles = game.add.group();
 
-
-
+	beatline = 500;
+		
 };
 
 gamePlayState.prototype.update = function(){
@@ -56,13 +65,25 @@ gamePlayState.prototype.update = function(){
 	}
 
 	//move the notes, destroying them if they reach the bottom
-	for(let i = 0; i < this.notes.children.length; i++)
-	{
-		this.notes.children[i].y = this.notes.children[i].y + 20;
-		if(this.notes.children[i].y >= 2100)
-		{
-			//console.info("destroyed");
-			this.notes.children[i].destroy();
+	for(let i = 0; i < this.notes.children.length; i++){
+
+		this.notes.children[i].y = this.notes.children[i].y + 500 * (2/bpm);
+		//console.info(i);
+		if(this.notes.children[i].y >= 2100){
+			
+			//this.notes.children[i].kill();
+			this.notes.remove(this.notes.children[i]);
+		}
+	}
+
+	for(let i = 0; i < this.obstacles.children.length; i++){
+
+		this.obstacles.children[i].y = this.obstacles.children[i].y + 500 * (2/bpm);
+		//console.info(i);
+		if(this.obstacles.children[i].y >= 2100){
+			
+			//this.notes.children[i].kill();
+			this.obstacles.remove(this.obstacles.children[i]);
 		}
 	}
 };
