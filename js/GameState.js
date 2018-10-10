@@ -37,8 +37,10 @@ gamePlayState.prototype.update = function(){
 		//parse through the current line from the level info doc, spawning a star if there's a 1
 		for(let x = 0; x < currentLine.length; x++){
 			if(currentLine.charAt(x) === "1"){
-				console.info("got here");
-				let note = this.notes.create(x*225, 0, "quarternote");
+				//console.info("got here");
+				let note = this.notes.create((x*225) + 112.5, 0, "quarternote");
+				note.height = 128;
+				note.width = 128;
 				//note.body.gravity.y = 300;
 				//star.playable = true;
 				//star.inputEnabled = true;
@@ -51,5 +53,16 @@ gamePlayState.prototype.update = function(){
 			spawning = false;
 		}
 
+	}
+
+	//move the notes, destroying them if they reach the bottom
+	for(let i = 0; i < this.notes.children.length; i++)
+	{
+		this.notes.children[i].y = this.notes.children[i].y + 20;
+		if(this.notes.children[i].y >= 2100)
+		{
+			//console.info("destroyed");
+			this.notes.children[i].destroy();
+		}
 	}
 };
