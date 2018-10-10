@@ -7,6 +7,9 @@ PreloadState.prototype.preload = function() {
     game.load.image('Level1', 'assets/Level1.png');
     game.load.image("quarternote", "assets/notecloudQuarter.png");
 
+    // load audio:
+    game.load.audio('testAudio', 'assets/audio/testNote.mp3');
+
     //load level files
     game.load.text("1", "assets/levels/testSpawning.txt");
 };

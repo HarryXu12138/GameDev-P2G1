@@ -23,10 +23,6 @@ gamePlayState.prototype.create = function(){
 
 	//Set up the group for notes
 	this.notes = game.add.group();
-
-
-
-
 };
 
 gamePlayState.prototype.update = function(){
@@ -44,7 +40,7 @@ gamePlayState.prototype.update = function(){
 				//note.body.gravity.y = 300;
 				//star.playable = true;
 				//star.inputEnabled = true;
-				//star.events.onInputDown.add(listener, star);	
+				//star.events.onInputDown.add(listener, star);
 				timeSince = d.getTime();
 			}
 		}
@@ -66,3 +62,8 @@ gamePlayState.prototype.update = function(){
 		}
 	}
 };
+
+playNote = function(note, score) {
+	// this gets turned into an anonymous function which already has the correct note passed in etc.
+	
+}
