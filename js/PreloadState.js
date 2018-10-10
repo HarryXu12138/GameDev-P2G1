@@ -3,6 +3,7 @@ let PreloadState = function() {
 
 PreloadState.prototype.preload = function() {
     game.load.spritesheet('StartButton', 'assets/buttons/StartButtonSpriteSheet.png', 1289, 1310);
+    game.load.bitmapFont('DefaultFont', 'assets/fonts/shortStack.png', 'assets/fonts/shortStack.xml');
     game.load.image('Level1', 'assets/Level1.png');
 };
 
