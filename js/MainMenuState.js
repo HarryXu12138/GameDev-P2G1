@@ -40,9 +40,10 @@ MainMenuState.prototype.initializeUI = function() {
     this.addButton(this.aboutButtonPosition, this.aboutButtonShape,
         this.aboutButtonSprite, this.aboutButtonSpriteFrames, this.hitAboutButton);
 
-    this.titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
+    let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
         'DefaultFont', this.titleText, this.titleSize);
-    this.titleText.anchor.setTo(0.5, 0.5);
+    titleText.align = 'center';
+    titleText.anchor.setTo(0.5, 0.5);
 };
 
 MainMenuState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
