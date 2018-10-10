@@ -10,8 +10,9 @@ AboutState.prototype.create = function() {
 };
 
 AboutState.prototype.update = function() {
-    this.aboutTextCurrentHeight -= game.height * 0.005;
+    this.aboutTextCurrentHeight -= game.height * 0.002;
     this.aboutText.y = this.aboutTextCurrentHeight;
+    if (this.aboutText.bottom < -100) game.state.start('MainMenuState');
 };
 
 AboutState.prototype.UISettings = function() {

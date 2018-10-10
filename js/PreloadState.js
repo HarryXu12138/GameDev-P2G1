@@ -7,6 +7,7 @@ PreloadState.prototype.preload = function() {
     game.load.text('AboutText', 'assets/about.txt');
     game.load.image('Level1Button', 'assets/buttons/Level1Button.png');
     game.load.image('GoBackButton', 'assets/buttons/GoBackButton.png');
+    game.load.image('HowToPlayButton', 'assets/buttons/HowToPlayButton.png');
 };
 
 PreloadState.prototype.create = function() {
