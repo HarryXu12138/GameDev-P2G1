@@ -2,6 +2,19 @@ let AboutState = function() {
 };
 
 AboutState.prototype.preload = function() {
+    this.UISettings();
+};
+
+AboutState.prototype.create = function() {
+    this.initializeUI();
+};
+
+AboutState.prototype.update = function() {
+    this.aboutTextCurrentHeight -= game.height * 0.005;
+    this.aboutText.y = this.aboutTextCurrentHeight;
+};
+
+AboutState.prototype.UISettings = function() {
     this.aboutText = game.cache.getText('AboutText');
     this.aboutTextStartPosition = [0.05 * game.width, 1 * game.height];
     this.aboutTextSize = 64;
@@ -13,7 +26,7 @@ AboutState.prototype.preload = function() {
     this.goBackButtonSpriteFrames = [0, 0, 0, 0];
 };
 
-AboutState.prototype.create = function() {
+AboutState.prototype.initializeUI = function() {
     this.aboutText = game.add.bitmapText(this.aboutTextStartPosition[0], this.aboutTextStartPosition[1],
         'DefaultFont', this.aboutText, this.aboutTextSize);
     this.aboutText.align = 'left';
@@ -34,9 +47,4 @@ AboutState.prototype.addButton = function(position, shape, sprite, spriteFrames,
     newButton.anchor.setTo(0.5, 0.5);
     newButton.width = shape[0];
     newButton.height = shape[1];
-};
-
-AboutState.prototype.update = function() {
-    this.aboutTextCurrentHeight -= game.height * 0.005;
-    this.aboutText.y = this.aboutTextCurrentHeight;
 };

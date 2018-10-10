@@ -28,18 +28,18 @@ LevelSelectState.prototype.initializeUI = function() {
         this.goBackButtonSprite, this.goBackButtonSpriteFrames, this.hitGoBackButton);
 };
 
-LevelSelectState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
-    let newButton = game.add.button(position[0], position[1], sprite, callback, this,
-        spriteFrames[0], spriteFrames[1], spriteFrames[2], spriteFrames[3]);
-    newButton.anchor.setTo(0.5, 0.5);
-    newButton.width = shape[0];
-    newButton.height = shape[1];
-};
-
 LevelSelectState.prototype.hitGoBackButton = function() {
     game.state.start('MainMenuState');
 };
 
 LevelSelectState.prototype.hitLevel1Button = function() {
 	game.state.start('GameState', true, false, 1);
+};
+
+LevelSelectState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
+    let newButton = game.add.button(position[0], position[1], sprite, callback, this,
+        spriteFrames[0], spriteFrames[1], spriteFrames[2], spriteFrames[3]);
+    newButton.anchor.setTo(0.5, 0.5);
+    newButton.width = shape[0];
+    newButton.height = shape[1];
 };
