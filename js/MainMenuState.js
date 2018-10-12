@@ -27,7 +27,7 @@ MainMenuState.prototype.UISettings = function() {
     this.startButtonPosition = [0.5 * game.width, 0.65 * game.height];
     this.startButtonShape = [300, 300];
     this.startButtonSprite = 'StartButton';
-    this.startButtonSpriteFrames = [1, 0, 1, 0];
+    this.startButtonSpriteFrames = [1, 0, 2, 2];
 
     this.titleTextPosition = [0.5 * game.width, 0.15 * game.height];
     this.titleText = 'Game Name\nGoes Here';
@@ -35,8 +35,8 @@ MainMenuState.prototype.UISettings = function() {
 
     this.aboutButtonPosition = [0.94 * game.width, 0.97 * game.height];
     this.aboutButtonShape = [100, 100];
-    this.aboutButtonSprite = 'StartButton';
-    this.aboutButtonSpriteFrames = [1, 0, 1, 0];
+    this.aboutButtonSprite = 'AboutButton';
+    this.aboutButtonSpriteFrames = [1, 0, 2, 2];
 
     this.howToPlayButtonPosition = [0.5 * game.width, 0.77 * game.height];
     this.howToPlayButtonShape = [200, 200];
