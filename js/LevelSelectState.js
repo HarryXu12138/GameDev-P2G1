@@ -10,7 +10,6 @@ LevelSelectState.prototype.create = function() {
 };
 
 LevelSelectState.prototype.UISettings = function() {
-    game.stage.backgroundColor = 0xff0000;
     this.levelButtonsSettings = [];
     let minXY = [0.1, 0.2];
     let maxX = 0.9;
