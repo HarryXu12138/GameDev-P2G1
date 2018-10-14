@@ -19,6 +19,7 @@ gamePlayState.prototype.init = function(levelNum){
 
 gamePlayState.prototype.create = function(){
 	console.info(levelNumber);
+	this.initializeUI();
 
 	//game.stage.backgroundColor = "#4488AA";
 
@@ -65,8 +66,6 @@ gamePlayState.prototype.create = function(){
 	game.input.onUp.add((p) => {this.cursorUpListener(p); });
 	this.pointerDownX = null;
 	this.pointerDownY = null; // this is set by the oninput down and used for swipe determination.
-
-	this.initializeUI();
 };
 
 gamePlayState.prototype.initializeUI = function() {
