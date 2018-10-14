@@ -53,10 +53,18 @@ gamePlayState.prototype.create = function(){
 
 	//Set up the group for obstacles
 	this.obstacles = game.add.group();
+	this.musicManager = new MusicManager(game);
 
+	this.score = 0;
+	this.stunTimer = 0; // if it's greater than zero we count down until it's zero and we aren't stunned
+	this.planeChannel = 2; // start at the middle channel
 	beatline = 500;
 
-
+	// this is for determining plane swipes:
+	game.input.onDown.add((p) => {this.cursorDownListener(p, this); });
+	game.input.onUp.add((p) => {this.cursorUpListener(p, this); });	
+	this.pointerDownX = null;
+	this.pointerDownY = null; // this is set by the oninput down and used for swipe determination.
 };
 
 gamePlayState.prototype.update = function(){
@@ -98,6 +106,8 @@ gamePlayState.prototype.update = function(){
 				note.moving = true;
 				note.height = 128;
 				note.width = 128;	
+				note.score = 1001;
+				note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 			}
 			else{
 				let spawnProb = Math.random();
@@ -146,3 +156,46 @@ gamePlayState.prototype.update = function(){
 
 
 };
+
+playNote = function(musicManager, instrument, note, duration, score) {
+	// this gets turned into an anonymous function which already has the correct note passed in etc.
+	// also need to determine how close to the beat you are
+	// note is x from left to right
+	// duration is 0 = quarter, 1 = half, 2 = whole
+	musicManager.playNote(0, note, duration);
+}
+
+gamePlayState.prototype.increaseScore = function(note) {
+	this.score += note.score;
+	console.log("Score: " + this.score);
+}
+
+
+gamePlayState.prototype.cursorDownListener = function(pointer, gameState) {
+	// passing in the gamestate because it needs a reference to it
+	// console.log("On Down " + pointer.x + " " + pointer.y);
+	gameState.pointerDownX = pointer.x;
+	gameState.pointerDownY = pointer.y;
+}
+
+gamePlayState.prototype.cursorUpListener = function(pointer, gameState) {
+	// passing in the gamestate because it needs a reference to it
+	// console.log("On up "+ pointer.x + " " + pointer.y);
+
+	var dx = pointer.x - this.pointerDownX;
+	var dy = pointer.y - this.pointerDownY;
+	// console.log("Dx " + dx);
+
+	if (Math.abs(dx) > 100) { // min swipe distance
+		// then change the planes channel if possible
+		if (dx < 0 && gameState.planeChannel > 0) {
+			gameState.planeChannel -= 1;
+			// also set up the animation
+		}
+		else if (dx > 0 && gameState.planeChannel < 4) {
+			gameState.planeChannel += 1;
+			// also set up the animation
+		}
+		// console.log("Swipe detected. Channel = " + gameState.planeChannel);
+	}
+}
