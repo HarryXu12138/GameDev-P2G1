@@ -6,6 +6,7 @@ PreloadState.prototype.preload = function() {
     game.load.image('StartButtonOver', 'assets/buttons/StartButtonOver.jpg');
     game.load.image('Level1', 'assets/Level1.png');
     game.load.image("quarternote", "assets/notecloudQuarter.png");
+    game.load.image("line", "assets/lineprototype2.png");
 
     //load level files
     game.load.text("1", "assets/levels/testSpawning.txt");
