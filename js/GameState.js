@@ -81,7 +81,9 @@ gamePlayState.prototype.update = function(){
 					let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
 					note.moving = true;
 					note.height = 128;
-					note.width = 128;	
+					note.width = 128;
+					note.score = 1001;
+					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);	
 				}
 				else if(currentLine.charAt(x) === "2"){
 					let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
@@ -162,6 +164,7 @@ playNote = function(musicManager, instrument, note, duration, score) {
 	// also need to determine how close to the beat you are
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
+	console.info("got here 2");
 	musicManager.playNote(0, note, duration);
 }
 

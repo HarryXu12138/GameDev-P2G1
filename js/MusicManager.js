@@ -21,6 +21,7 @@ class MusicManager {
 	}
 
 	playNote(instrument, note, duration) {
+		console.info("got here");
 		var notes;
 		switch(instrument) {
 			case 0:
