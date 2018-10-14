@@ -41,7 +41,7 @@ MainMenuState.prototype.UISettings = function() {
     this.howToPlayButtonPosition = [0.5 * game.width, 0.77 * game.height];
     this.howToPlayButtonShape = [200, 200];
     this.howToPlayButtonSprite = 'HowToPlayButton';
-    this.howToPlayButtonSpriteFrames = [0, 0, 0, 0];
+    this.howToPlayButtonSpriteFrames = [1, 0, 2, 2];
 };
 
 MainMenuState.prototype.initializeUI = function() {
