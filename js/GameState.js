@@ -1,5 +1,5 @@
 let gamePlayState = function(){
-	
+
 };
 
 let levelNumber = 0;
@@ -23,7 +23,7 @@ gamePlayState.prototype.create = function(){
 	//game.stage.backgroundColor = "#4488AA";
 
 	this.backgroundStuff = game.add.group();
-	
+
 	let background1 = this.backgroundStuff.create(0,0, "Level1");
 	background1.height = 2100;
 	background1.width = 1125;
@@ -46,7 +46,7 @@ gamePlayState.prototype.create = function(){
 	let line2 = game.add.sprite(95.5 - 56.25 + 225, 0, "line");
 	let line3 = game.add.sprite(95.5 - 56.25 + 225 * 2, 0, "line");
 	let line4 = game.add.sprite(95.5 - 56.25 + 225 * 3, 0, "line");
-	let line5 = game.add.sprite(95.5 - 56.25 + 225 * 4, 0, "line");	
+	let line5 = game.add.sprite(95.5 - 56.25 + 225 * 4, 0, "line");
 
 	//Set up the group for notes
 	this.notes = game.add.group();
@@ -62,9 +62,16 @@ gamePlayState.prototype.create = function(){
 
 	// this is for determining plane swipes:
 	game.input.onDown.add((p) => {this.cursorDownListener(p); });
-	game.input.onUp.add((p) => {this.cursorUpListener(p); });	
+	game.input.onUp.add((p) => {this.cursorUpListener(p); });
 	this.pointerDownX = null;
 	this.pointerDownY = null; // this is set by the oninput down and used for swipe determination.
+
+	this.initializeUI();
+};
+
+gamePlayState.prototype.initializeUI = function() {
+	// TODO
+	// Start working on UI in game play state
 };
 
 gamePlayState.prototype.update = function(){
@@ -84,7 +91,7 @@ gamePlayState.prototype.update = function(){
 					note.width = 128;
 					note.score = 1001;
 					note.inputEnabled = true;
-					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);	
+					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
 					let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
@@ -108,7 +115,7 @@ gamePlayState.prototype.update = function(){
 				let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
 				note.moving = true;
 				note.height = 128;
-				note.width = 128;	
+				note.width = 128;
 				note.score = 1001;
 				note.inputEnabled = true;
 				note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
@@ -132,7 +139,7 @@ gamePlayState.prototype.update = function(){
 		}
 		//console.info(i);
 		if(this.notes.children[i].y >= 2100){
-			
+
 			//this.notes.children[i].kill();
 			//this.notes.remove(this.notes.children[i]);
 		}
@@ -143,7 +150,7 @@ gamePlayState.prototype.update = function(){
 		this.obstacles.children[i].y = this.obstacles.children[i].y + 500 * (2/bpm);
 		//console.info(i);
 		if(this.obstacles.children[i].y >= 2100){
-			
+
 			//this.notes.children[i].kill();
 			//this.obstacles.remove(this.obstacles.children[i]);
 		}
