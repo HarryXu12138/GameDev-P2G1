@@ -69,8 +69,18 @@ gamePlayState.prototype.create = function(){
 };
 
 gamePlayState.prototype.initializeUI = function() {
-	// TODO
-	// Start working on UI in game play state
+	let goBackButtonPosition = [0.9 * game.width, 0.05 * game.height];
+    let goBackButtonShape = [200, 200];
+    let goBackButtonSprite = 'GoBackButton';
+    let goBackButtonSpriteFrames = [1, 0, 2, 2];
+
+    let callback = function() {}
+
+    let newButton = game.add.button(goBackButtonPosition[0], goBackButtonPosition[1], goBackButtonSprite, callback, this,
+        goBackButtonSpriteFrames[0], goBackButtonSpriteFrames[1], goBackButtonSpriteFrames[2], goBackButtonSpriteFrames[3]);
+    newButton.anchor.setTo(0.5, 0.5);
+    newButton.width = goBackButtonShape[0];
+    newButton.height = goBackButtonShape[1];
 };
 
 gamePlayState.prototype.update = function(){

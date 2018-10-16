@@ -29,21 +29,32 @@ LevelSelectState.prototype.UISettings = function() {
         }
         previousPosition = nextPosition;
         nextPosition = [nextPosition[0] * game.width, nextPosition[1] * game.height];
+        let buttonFrames = [1, 0, 2, 2];
+        let buttonText = i.toString();
+        let buttonEnabled = true;
+        if (i > userLevelNum) {
+            buttonFrames = [4, 4, 4, 4];
+            buttonText = '';
+            buttonEnabled = false;
+        }
         let setting = {
             position:nextPosition,
             shape:buttonShape.slice(),
-            text:i.toString(),
+            text:buttonText,
             style:{
                 font:'bold 80pt Arial',
                 fill:'white'
-            }
+            },
+            frames:buttonFrames,
+            enabled:buttonEnabled
         };
         this.levelButtonsSettings.push(setting);
     }
     let infinitLevelButton = this.levelButtonsSettings[this.levelButtonsSettings.length - 1];
     infinitLevelButton.position[0] += buttonSpace[0] * game.width / 2;
     infinitLevelButton.shape[0] = buttonShape[0] + buttonSpace[0] * game.width;
-    infinitLevelButton.text = '∞';
+    if (userLevelNum > 7)
+        infinitLevelButton.text = '∞';
     infinitLevelButton.style = {
         font:'bold 150pt Arial',
         fill:'white'
@@ -70,10 +81,10 @@ LevelSelectState.prototype.initializeUI = function() {
         let callback = function() {this.hitLevelButton(i + 1)};
         if (i == this.levelButtonsSettings.length - 1)
             callback = function() {this.hitLevelButton(0)};
-        this.addGeneralButtonWithText(setting.position, setting.shape, setting.text, setting.style, callback);
+        this.addGeneralButtonWithText(setting.position, setting.shape, setting.text, setting.style, setting.frames, setting.enabled,callback);
     }
     this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
-        this.goBackButtonSprite, this.goBackButtonSpriteFrames, this.hitGoBackButton);
+        this.goBackButtonSprite, this.goBackButtonSpriteFrames, true, this.hitGoBackButton);
 };
 
 LevelSelectState.prototype.hitGoBackButton = function() {
@@ -84,17 +95,18 @@ LevelSelectState.prototype.hitLevelButton = function(levelNumber) {
 	game.state.start('GameState', true, false, levelNumber);
 };
 
-LevelSelectState.prototype.addGeneralButtonWithText = function(position, shape, text, style, callback) {
-    this.addButton(position, shape, 'GeneralButton', [1, 0, 2, 2], callback);
+LevelSelectState.prototype.addGeneralButtonWithText = function(position, shape, text, style, frames, buttonEnabled, callback) {
+    this.addButton(position, shape, 'GeneralButton', frames, buttonEnabled, callback);
     let buttonText = game.add.text(position[0], position[1], text, style);
     buttonText.anchor.setTo(0.5, 0.5);
     buttonText.align = 'center';
 };
 
-LevelSelectState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
+LevelSelectState.prototype.addButton = function(position, shape, sprite, spriteFrames, buttonEnabled,callback) {
     let newButton = game.add.button(position[0], position[1], sprite, callback, this,
         spriteFrames[0], spriteFrames[1], spriteFrames[2], spriteFrames[3]);
     newButton.anchor.setTo(0.5, 0.5);
     newButton.width = shape[0];
     newButton.height = shape[1];
+    newButton.inputEnabled = buttonEnabled;
 };
