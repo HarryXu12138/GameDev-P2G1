@@ -45,31 +45,23 @@ MainMenuState.prototype.UISettings = function() {
 };
 
 MainMenuState.prototype.initializeUI = function() {
+    let hitHowToPlayButton = function() {game.state.start('HowToState');};
+    let hitAboutButton = function() {game.state.start('AboutState');};
+    let hitStartButton = function() {game.state.start('LevelSelectState');};
+
     this.addButton(this.startButtonPosition, this.startButtonShape,
-        this.startButtonSprite, this.startButtonSpriteFrames, this.hitStartButton);
+        this.startButtonSprite, this.startButtonSpriteFrames, hitStartButton);
 
     this.addButton(this.aboutButtonPosition, this.aboutButtonShape,
-        this.aboutButtonSprite, this.aboutButtonSpriteFrames, this.hitAboutButton);
+        this.aboutButtonSprite, this.aboutButtonSpriteFrames, hitAboutButton);
 
     this.addButton(this.howToPlayButtonPosition, this.howToPlayButtonShape,
-        this.howToPlayButtonSprite, this.howToPlayButtonSpriteFrames, this.hitHowToPlayButton);
+        this.howToPlayButtonSprite, this.howToPlayButtonSpriteFrames, hitHowToPlayButton);
 
     let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
         'DefaultFont', this.titleText, this.titleSize);
     titleText.align = 'center';
     titleText.anchor.setTo(0.5, 0.5);
-};
-
-MainMenuState.prototype.hitHowToPlayButton = function() {
-    game.state.start('HowToState');
-};
-
-MainMenuState.prototype.hitAboutButton = function() {
-    game.state.start('AboutState');
-};
-
-MainMenuState.prototype.hitStartButton = function() {
-    game.state.start('LevelSelectState');
 };
 
 MainMenuState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {

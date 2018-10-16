@@ -7,6 +7,7 @@ LevelSelectState.prototype.preload = function() {
 
 LevelSelectState.prototype.create = function() {
     this.initializeUI();
+    this.addCheatKeys();
 };
 
 LevelSelectState.prototype.UISettings = function() {
@@ -76,23 +77,33 @@ LevelSelectState.prototype.initializeUI = function() {
     backGround.width = this.levelSelectBackGroundShape[0];
     backGround.height = this.levelSelectBackGroundShape[1];
 
+    let hitLevelButton = function(levelNumber) {game.state.start('GameState', true, false, levelNumber);};
+
     for (let i = 0; i < this.levelButtonsSettings.length; ++i) {
         let setting = this.levelButtonsSettings[i];
-        let callback = function() {this.hitLevelButton(i + 1)};
+        let callback = function() {hitLevelButton(i + 1)};
         if (i == this.levelButtonsSettings.length - 1)
-            callback = function() {this.hitLevelButton(0)};
+            callback = function() {hitLevelButton(0)};
         this.addGeneralButtonWithText(setting.position, setting.shape, setting.text, setting.style, setting.frames, setting.enabled,callback);
     }
+    let hitGoBackButtonCallBack = function() {game.state.start('MainMenuState');};
     this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
-        this.goBackButtonSprite, this.goBackButtonSpriteFrames, true, this.hitGoBackButton);
+        this.goBackButtonSprite, this.goBackButtonSpriteFrames, true, hitGoBackButtonCallBack);
 };
 
-LevelSelectState.prototype.hitGoBackButton = function() {
-    game.state.start('MainMenuState');
-};
-
-LevelSelectState.prototype.hitLevelButton = function(levelNumber) {
-	game.state.start('GameState', true, false, levelNumber);
+LevelSelectState.prototype.addCheatKeys = function() {
+    let unlockKey = game.input.keyboard.addKey(Phaser.Keyboard.U);
+    let lockKey = game.input.keyboard.addKey(Phaser.Keyboard.L);
+    let unlockNextLevel = function() {
+        ++userLevelNum;
+        game.state.restart();
+    };
+    let lockAllLevel = function() {
+        userLevelNum = 1;
+        game.state.restart();
+    };
+    unlockKey.onUp.add(unlockNextLevel, this);
+    lockKey.onUp.add(lockAllLevel, this);
 };
 
 LevelSelectState.prototype.addGeneralButtonWithText = function(position, shape, text, style, frames, buttonEnabled, callback) {

@@ -28,6 +28,7 @@ AboutState.prototype.UISettings = function() {
 };
 
 AboutState.prototype.initializeUI = function() {
+    let hitGoBackButton = function() {game.state.start('MainMenuState');};
     this.aboutText = game.add.bitmapText(this.aboutTextStartPosition[0], this.aboutTextStartPosition[1],
         'DefaultFont', this.aboutText, this.aboutTextSize);
     this.aboutText.align = 'left';
@@ -35,11 +36,7 @@ AboutState.prototype.initializeUI = function() {
     this.aboutText.maxWidth = 1050;
 
     this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
-        this.goBackButtonSprite, this.goBackButtonSpriteFrames, this.hitGoBackButton);
-};
-
-AboutState.prototype.hitGoBackButton = function() {
-    game.state.start('MainMenuState');
+        this.goBackButtonSprite, this.goBackButtonSpriteFrames, hitGoBackButton);
 };
 
 AboutState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
