@@ -17,6 +17,16 @@ let diffTimeTracker = 0;
 
 gamePlayState.prototype.init = function(levelNum){
 	levelNumber = levelNum;
+	levelNumber = 0;
+	lineInfo = [];
+	d = new Date();
+	timeSince = d.getTime();
+	lineNumber = 1;
+	spawning = true;
+	bpm = 0;
+	beatline = 0;
+	difficultylevel = 1;
+	diffTimeTracker = 0;
 };
 
 gamePlayState.prototype.create = function(){
@@ -130,7 +140,7 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < currentLine.length; x++){
 				if(currentLine.charAt(x) === "1"){
 					//console.info("got here");
-					let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
+					let note = this.notes.create((x*225) + 112.5/2, -128, "quarternote");
 					note.moving = true;
 					note.height = 128;
 					note.width = 128;
@@ -139,7 +149,7 @@ gamePlayState.prototype.update = function(){
 					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
-					let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
+					let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
 					obstacle.width = 128;
 					obstacle.height = 128;
 					obstacle.channel = x;
@@ -164,7 +174,7 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < 5; x++){
 				if(x === notePlace)
 				{
-					let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
+					let note = this.notes.create((x*225) + 112.5/2, -128, "quarternote");
 					note.moving = true;
 					note.height = 128;
 					note.width = 128;	
@@ -175,7 +185,7 @@ gamePlayState.prototype.update = function(){
 				else{
 					let spawnProb = Math.random();
 					if(spawnProb < (difficultylevel * .75)/5 && obstNum <= difficultylevel){
-						let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
+						let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
 						obstacle.width = 128;
 						obstacle.height = 128;
 						obstacle.channel = x;
