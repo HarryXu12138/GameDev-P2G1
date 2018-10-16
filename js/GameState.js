@@ -99,7 +99,7 @@ gamePlayState.prototype.create = function(){
 };
 
 gamePlayState.prototype.initializeUI = function() {
-	let goBackButtonPosition = [0.9 * game.width, 0.05 * game.height];
+	let goBackButtonPosition = [0.1 * game.width, 0.05 * game.height];
     let goBackButtonShape = [200, 200];
     let goBackButtonSprite = 'GoBackButton';
     let goBackButtonSpriteFrames = [1, 0, 2, 2];
