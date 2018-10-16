@@ -2,7 +2,7 @@ let HowToState = function() {
 };
 
 HowToState.prototype.preload = function() {
-    this.goBackButtonPosition = [0.9 * game.width, 0.05 * game.height];
+    this.goBackButtonPosition = [0.1 * game.width, 0.05 * game.height];
     this.goBackButtonShape = [200, 200];
     this.goBackButtonSprite = 'GoBackButton';
     this.goBackButtonSpriteFrames = [1, 0, 2, 2];
