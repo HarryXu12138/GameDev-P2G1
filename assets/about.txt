@@ -7,6 +7,3 @@ Artists:
 Jimmy Jin
 
 A project of Game Development Course from RPI
-
-Github link
-https://github.com/HarryXu12138/GameDev-P2G1
