@@ -65,11 +65,13 @@ gamePlayState.prototype.create = function(){
 	this.musicManager = new MusicManager(game);
 
 	//Set up player
-	this.player = game.add.sprite(562.5 - 175, 2036, "player");
+	this.player = game.add.sprite(562.5 - 175, 2036, "playerN");
 	this.player.width = 350;
 	this.player.height = 350;
 	this.player.enableBody = true;
 	game.physics.arcade.enable(this.player);
+	//this.player.animations.add("left", [3], 250, false);
+	//this.player.animations.add("right", [2], 250, false);
 
 
 	this.score = 0;
@@ -109,10 +111,10 @@ gamePlayState.prototype.update = function(){
 	if(this.stunTimer > 0)
 	{
 		this.stunTimer--;
-		console.info(this.stunTimer);
+		//console.info(this.stunTimer);
 		if(this.stunTimer === 0)
 		{
-			console.info("not stunned");
+			//console.info("not stunned");
 		}
 	}
 
@@ -133,12 +135,13 @@ gamePlayState.prototype.update = function(){
 					note.width = 128;
 					note.score = 1001;
 					note.inputEnabled = true;
-					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
 					let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
 					obstacle.width = 128;
 					obstacle.height = 128;
+					obstacle.channel = x;
 				}
 			}
 			timeSince = d.getTime();
@@ -174,6 +177,7 @@ gamePlayState.prototype.update = function(){
 						let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
 						obstacle.width = 128;
 						obstacle.height = 128;
+						obstacle.channel = x;
 						obstNum++;
 					}
 				}
@@ -233,7 +237,7 @@ gamePlayState.prototype.playNote = function(musicManager, instrument, note, dura
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
 	//console.info("got here 2");
-	console.info("music manager " + this.stunTimer);
+	//console.info("music manager " + this.stunTimer);
 	if(this.stunTimer === 0)//only play music while not stunned
 	{
 		musicManager.playNote(0, note, duration);
@@ -270,24 +274,34 @@ gamePlayState.prototype.cursorUpListener = function(pointer) {
 			// also set up the animation
 			let planeMove = game.add.tween(this.player);
 			planeMove.to({x: ((95 + 225 * this.planeChannel) - 150)}, 250);
+			planeMove.onComplete.add(this.resetPlane, this);
 			planeMove.start();
+			//this.player.animations.play("left");
+			this.player.loadTexture("playerL");
 		}
 		else if (dx > 0 && this.planeChannel < 4) {
 			this.planeChannel += 1;
 			// also set up the animation
 			let planeMove = game.add.tween(this.player);
 			planeMove.to({x: ((95 + 225 * this.planeChannel) - 150)}, 250);
+			planeMove.onComplete.add(this.resetPlane, this);
 			planeMove.start();
+			//this.player.animations.play("right");
+			this.player.loadTexture("playerR");
 		}
 		// console.log("Swipe detected. Channel = " + this.planeChannel);
 	}
 }
 
-gamePlayState.prototype.hitObstacle = function(player, obstacle){
+gamePlayState.prototype.hitObstacle = function(player, obst){
 	
-	if(this.stunTimer === 0)//if not stunned, activate stun
+	if(this.stunTimer === 0 && obst.channel === this.planeChannel)//if not stunned, activate stun
 	{
 		console.info("stunned");	
 		this.stunTimer = 100;
 	}
+}
+
+gamePlayState.prototype.resetPlane = function(){
+	this.player.loadTexture("playerN");
 }

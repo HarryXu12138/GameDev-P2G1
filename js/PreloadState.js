@@ -30,6 +30,10 @@ PreloadState.prototype.preload = function() {
     game.load.image("quarternote", "assets/notecloudQuarter.png");
     game.load.image("line", "assets/lineprototype2.png");
     game.load.image("player", "assets/player1.png");
+    //game.load.spritesheet("playerSS", "assets/sprites/PlayerM.png", 512, 512, 3);
+    game.load.image("playerN", "assets/sprites/PlayerMN.png");
+    game.load.image("playerL", "assets/sprites/PlayerMR.png");//I messed up naming these two sprites
+    game.load.image("playerR", "assets/sprites/PlayerML.png");
 
     // load audio:
     this.loadNotes();
