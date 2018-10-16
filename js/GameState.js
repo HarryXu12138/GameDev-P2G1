@@ -115,6 +115,7 @@ gamePlayState.prototype.update = function(){
 		if(this.stunTimer === 0)
 		{
 			//console.info("not stunned");
+			this.player.alpha = 1.0;
 		}
 	}
 
@@ -297,7 +298,8 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 	
 	if(this.stunTimer === 0 && obst.channel === this.planeChannel)//if not stunned, activate stun
 	{
-		console.info("stunned");	
+		//console.info("stunned");	
+		this.player.alpha = 0.80;
 		this.stunTimer = 100;
 	}
 }
