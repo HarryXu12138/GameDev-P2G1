@@ -11,7 +11,9 @@ let lineNumber = 1;
 let spawning = true;
 let bpm = 0;
 let beatline = 0;
+
 let difficultylevel = 1;
+let diffTimeTracker = 0;
 
 gamePlayState.prototype.init = function(levelNum){
 	levelNumber = levelNum;
@@ -25,19 +27,22 @@ gamePlayState.prototype.create = function(){
 	this.backgroundStuff = game.add.group();
 	
 	let background1 = this.backgroundStuff.create(0,0, "Level1");
-	background1.height = 2100;
+	background1.height = 2500;
 	background1.width = 1125;
 
-	let background2 = this.backgroundStuff.create(0,-2100, "Level1");
-	background2.height = 2100;
+	let background2 = this.backgroundStuff.create(0,-2500, "Level1");
+	background2.height = 2500;
 	background2.width = 1125;
 
 	//Pull info file for this level out of the cache and load it into line info, splitting it per line
-	if(levelNumber !== 0)
-	{
+	if(levelNumber !== 0){
 		let infoFile = this.cache.getText("" + levelNumber);
 		lineInfo = infoFile.split("\n");
 		bpm = parseInt(lineInfo[0]);
+	}
+	else{
+		diffTimeTracker = new Date();
+		bpm = 60;
 	}
 	console.info(bpm);
 
@@ -72,7 +77,7 @@ gamePlayState.prototype.update = function(){
 	let d = new Date();
 	if(levelNumber !== 0)
 	{
-		if((d.getTime() - timeSince >= (bpm/60) * 1000) && spawning){
+		if((d.getTime() - timeSince >= (60/bpm) * 1000) && spawning){
 			let currentLine = lineInfo[lineNumber];
 			//parse through the current line from the level info doc, spawning a star if there's a 1
 			for(let x = 0; x < currentLine.length; x++){
@@ -100,27 +105,44 @@ gamePlayState.prototype.update = function(){
 		}
 	}
 	else{
-		//Code for randomly generating lines for endles mode
-		let notePlace = (Math.random() * 5) % 1;
-		for(let x = 0; x < 5; x++){
-			if(x === notePlace)
-			{
-				let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
-				note.moving = true;
-				note.height = 128;
-				note.width = 128;	
-				note.score = 1001;
-				note.inputEnabled = true;
-				note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
-			}
-			else{
-				let spawnProb = Math.random();
-				if(spawnProb < difficultylevel/5){
-					let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
-					obstacle.width = 128;
-					obstacle.height = 128;
+		//Code for randomly generating lines for endles mode\
+		if(d.getTime() - timeSince >= (60/bpm) * 1000)
+		{
+
+			let notePlace = Math.floor(Math.random() * 5);
+			let obstNum = 0;
+
+			//console.info("got here " + notePlace);
+			for(let x = 0; x < 5; x++){
+				if(x === notePlace)
+				{
+					let note = this.notes.create((x*225) + 112.5/2, 0, "quarternote");
+					note.moving = true;
+					note.height = 128;
+					note.width = 128;	
+					note.score = 1001;
+					note.inputEnabled = true;
+					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+				}
+				else{
+					let spawnProb = Math.random();
+					if(spawnProb < (difficultylevel * .75)/5 && obstNum <= difficultylevel){
+						let obstacle = this.obstacles.create((x*225) + 112.5/2, 0, "Level1");
+						obstacle.width = 128;
+						obstacle.height = 128;
+						obstNum++;
+					}
 				}
 			}
+			timeSince = new Date();
+		}
+		if(d.getTime() - diffTimeTracker >= 1000 * /*2 * 60*/ 10 && difficultylevel < 4)
+		{
+			
+			difficultylevel++;
+			bpm = bpm + 30;
+			diffTimeTracker = new Date();
+			console.info("got here1" + difficultylevel + " " + bpm);
 		}
 	}
 
@@ -128,10 +150,10 @@ gamePlayState.prototype.update = function(){
 	for(let i = 0; i < this.notes.children.length; i++){
 		if(this.notes.children[i].moving)
 		{
-			this.notes.children[i].y = this.notes.children[i].y + 500 * (2/bpm);
+			this.notes.children[i].y = this.notes.children[i].y + bpm/5;
 		}
 		//console.info(i);
-		if(this.notes.children[i].y >= 2100){
+		if(this.notes.children[i].y >= 2436){
 			
 			//this.notes.children[i].kill();
 			//this.notes.remove(this.notes.children[i]);
@@ -140,9 +162,9 @@ gamePlayState.prototype.update = function(){
 
 	for(let i = 0; i < this.obstacles.children.length; i++){
 
-		this.obstacles.children[i].y = this.obstacles.children[i].y + 500 * (2/bpm);
+		this.obstacles.children[i].y = this.obstacles.children[i].y + bpm/5;
 		//console.info(i);
-		if(this.obstacles.children[i].y >= 2100){
+		if(this.obstacles.children[i].y >= 2436){
 			
 			//this.notes.children[i].kill();
 			//this.obstacles.remove(this.obstacles.children[i]);
@@ -152,9 +174,9 @@ gamePlayState.prototype.update = function(){
 	for(let i = 0; i < this.backgroundStuff.children.length; i++)
 	{
 		this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 20;
-		if(this.backgroundStuff.children[i].y >= 2100)
+		if(this.backgroundStuff.children[i].y >= 2500)
 		{
-			this.backgroundStuff.children[i].y = -2100;
+			this.backgroundStuff.children[i].y = -2500;
 		}
 	}
 

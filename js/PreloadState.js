@@ -11,7 +11,7 @@ PreloadState.prototype.preload = function() {
     game.load.text('AboutText', 'assets/about.txt');
     game.load.image('StartBotton', 'assets/buttons/StartButtonNormal.jpg');
     game.load.image('StartButtonOver', 'assets/buttons/StartButtonOver.jpg');
-    game.load.image('Level1', 'assets/Level1.png');
+    game.load.image('Level1', 'assets/cloudprototype.png');
     game.load.image("quarternote", "assets/notecloudQuarter.png");
     game.load.image("line", "assets/lineprototype2.png");
 

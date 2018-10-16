@@ -57,7 +57,7 @@ LevelSelectState.prototype.hitGoBackButton = function() {
 };
 
 LevelSelectState.prototype.hitLevelButton = function() {
-	game.state.start('GameState', true, false, 1);
+	game.state.start('GameState', true, false, 0);
 };
 
 LevelSelectState.prototype.addGeneralButtonWithText = function(position, shape, text, style, callback) {
