@@ -24,8 +24,8 @@ MainMenuState.prototype.shutdown = function() {
 };
 
 MainMenuState.prototype.UISettings = function() {
-    this.startButtonPosition = [0.5 * game.width, 0.65 * game.height];
-    this.startButtonShape = [300, 300];
+    this.startButtonPosition = [0.5 * game.width, 0.5 * game.height];
+    this.startButtonShape = [400, 400];
     this.startButtonSprite = 'StartButton';
     this.startButtonSpriteFrames = [1, 0, 2, 2];
 
@@ -38,8 +38,8 @@ MainMenuState.prototype.UISettings = function() {
     this.aboutButtonSprite = 'AboutButton';
     this.aboutButtonSpriteFrames = [1, 0, 2, 2];
 
-    this.howToPlayButtonPosition = [0.5 * game.width, 0.77 * game.height];
-    this.howToPlayButtonShape = [200, 200];
+    this.howToPlayButtonPosition = [0.5 * game.width, 0.65 * game.height];
+    this.howToPlayButtonShape = [300, 300];
     this.howToPlayButtonSprite = 'HowToPlayButton';
     this.howToPlayButtonSpriteFrames = [1, 0, 2, 2];
 };
