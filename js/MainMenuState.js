@@ -24,8 +24,8 @@ MainMenuState.prototype.shutdown = function() {
 };
 
 MainMenuState.prototype.UISettings = function() {
-    this.startButtonPosition = [0.5 * game.width, 0.65 * game.height];
-    this.startButtonShape = [300, 300];
+    this.startButtonPosition = [0.5 * game.width, 0.5 * game.height];
+    this.startButtonShape = [400, 400];
     this.startButtonSprite = 'StartButton';
     this.startButtonSpriteFrames = [1, 0, 2, 2];
 
@@ -38,38 +38,30 @@ MainMenuState.prototype.UISettings = function() {
     this.aboutButtonSprite = 'AboutButton';
     this.aboutButtonSpriteFrames = [1, 0, 2, 2];
 
-    this.howToPlayButtonPosition = [0.5 * game.width, 0.77 * game.height];
-    this.howToPlayButtonShape = [200, 200];
+    this.howToPlayButtonPosition = [0.5 * game.width, 0.65 * game.height];
+    this.howToPlayButtonShape = [300, 300];
     this.howToPlayButtonSprite = 'HowToPlayButton';
     this.howToPlayButtonSpriteFrames = [1, 0, 2, 2];
 };
 
 MainMenuState.prototype.initializeUI = function() {
+    let hitHowToPlayButton = function() {game.state.start('HowToState');};
+    let hitAboutButton = function() {game.state.start('AboutState');};
+    let hitStartButton = function() {game.state.start('LevelSelectState');};
+
     this.addButton(this.startButtonPosition, this.startButtonShape,
-        this.startButtonSprite, this.startButtonSpriteFrames, this.hitStartButton);
+        this.startButtonSprite, this.startButtonSpriteFrames, hitStartButton);
 
     this.addButton(this.aboutButtonPosition, this.aboutButtonShape,
-        this.aboutButtonSprite, this.aboutButtonSpriteFrames, this.hitAboutButton);
+        this.aboutButtonSprite, this.aboutButtonSpriteFrames, hitAboutButton);
 
     this.addButton(this.howToPlayButtonPosition, this.howToPlayButtonShape,
-        this.howToPlayButtonSprite, this.howToPlayButtonSpriteFrames, this.hitHowToPlayButton);
+        this.howToPlayButtonSprite, this.howToPlayButtonSpriteFrames, hitHowToPlayButton);
 
     let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
         'DefaultFont', this.titleText, this.titleSize);
     titleText.align = 'center';
     titleText.anchor.setTo(0.5, 0.5);
-};
-
-MainMenuState.prototype.hitHowToPlayButton = function() {
-    game.state.start('HowToState');
-};
-
-MainMenuState.prototype.hitAboutButton = function() {
-    game.state.start('AboutState');
-};
-
-MainMenuState.prototype.hitStartButton = function() {
-    game.state.start('LevelSelectState');
 };
 
 MainMenuState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
