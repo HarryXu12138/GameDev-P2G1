@@ -46,6 +46,8 @@ gamePlayState.prototype.create = function(){
 	}
 	console.info(bpm);
 
+
+
 	//Create the "staff" on the screen
 	let line1 = game.add.sprite(95.5 - 56.25, 0, "line");
 	let line2 = game.add.sprite(95.5 - 56.25 + 225, 0, "line");
@@ -59,6 +61,11 @@ gamePlayState.prototype.create = function(){
 	//Set up the group for obstacles
 	this.obstacles = game.add.group();
 	this.musicManager = new MusicManager(game);
+
+	//Set up player
+	this.player = game.add.sprite(562.5 - 175, 2036, "player");
+	this.player.width = 350;
+	this.player.height = 350;
 
 	this.score = 0;
 	this.stunTimer = 0; // if it's greater than zero we count down until it's zero and we aren't stunned
@@ -136,13 +143,13 @@ gamePlayState.prototype.update = function(){
 			}
 			timeSince = new Date();
 		}
-		if(d.getTime() - diffTimeTracker >= 1000 * /*2 * 60*/ 10 && difficultylevel < 4)
+		if(d.getTime() - diffTimeTracker >= 1000 *2 * 60 && difficultylevel < 4)
 		{
 			
 			difficultylevel++;
 			bpm = bpm + 30;
 			diffTimeTracker = new Date();
-			console.info("got here1" + difficultylevel + " " + bpm);
+			//console.info("got here1" + difficultylevel + " " + bpm);
 		}
 	}
 
@@ -181,6 +188,9 @@ gamePlayState.prototype.update = function(){
 	}
 
 
+
+
+
 };
 
 playNote = function(musicManager, instrument, note, duration, score) {
@@ -188,13 +198,13 @@ playNote = function(musicManager, instrument, note, duration, score) {
 	// also need to determine how close to the beat you are
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
-	console.info("got here 2");
+	//console.info("got here 2");
 	musicManager.playNote(0, note, duration);
 }
 
 gamePlayState.prototype.increaseScore = function(note) {
 	this.score += note.score;
-	console.log("Score: " + this.score);
+	//console.log("Score: " + this.score);
 }
 
 
@@ -217,10 +227,16 @@ gamePlayState.prototype.cursorUpListener = function(pointer) {
 		if (dx < 0 && this.planeChannel > 0) {
 			this.planeChannel -= 1;
 			// also set up the animation
+			let planeMove = game.add.tween(this.player);
+			planeMove.to({x: ((95 + 225 * this.planeChannel) - 150)}, 250);
+			planeMove.start();
 		}
 		else if (dx > 0 && this.planeChannel < 4) {
 			this.planeChannel += 1;
 			// also set up the animation
+			let planeMove = game.add.tween(this.player);
+			planeMove.to({x: ((95 + 225 * this.planeChannel) - 150)}, 250);
+			planeMove.start();
 		}
 		// console.log("Swipe detected. Channel = " + this.planeChannel);
 	}
