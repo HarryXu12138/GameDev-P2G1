@@ -19,7 +19,6 @@ gamePlayState.prototype.init = function(levelNum){
 
 gamePlayState.prototype.create = function(){
 	console.info(levelNumber);
-	this.initializeUI();
 
 	//game.stage.backgroundColor = "#4488AA";
 
@@ -66,6 +65,7 @@ gamePlayState.prototype.create = function(){
 	game.input.onUp.add((p) => {this.cursorUpListener(p); });
 	this.pointerDownX = null;
 	this.pointerDownY = null; // this is set by the oninput down and used for swipe determination.
+	this.initializeUI();
 };
 
 gamePlayState.prototype.initializeUI = function() {
@@ -74,13 +74,13 @@ gamePlayState.prototype.initializeUI = function() {
     let goBackButtonSprite = 'GoBackButton';
     let goBackButtonSpriteFrames = [1, 0, 2, 2];
 
-    let callback = function() {}
+    let callback = function() {game.state.start('LevelSelectState');};
 
-    let newButton = game.add.button(goBackButtonPosition[0], goBackButtonPosition[1], goBackButtonSprite, callback, this,
+    this.goBackButton = game.add.button(goBackButtonPosition[0], goBackButtonPosition[1], goBackButtonSprite, callback, this,
         goBackButtonSpriteFrames[0], goBackButtonSpriteFrames[1], goBackButtonSpriteFrames[2], goBackButtonSpriteFrames[3]);
-    newButton.anchor.setTo(0.5, 0.5);
-    newButton.width = goBackButtonShape[0];
-    newButton.height = goBackButtonShape[1];
+    this.goBackButton.anchor.setTo(0.5, 0.5);
+    this.goBackButton.width = goBackButtonShape[0];
+    this.goBackButton.height = goBackButtonShape[1];
 };
 
 gamePlayState.prototype.update = function(){
@@ -174,7 +174,7 @@ gamePlayState.prototype.update = function(){
 		}
 	}
 
-
+	this.goBackButton.bringToTop();
 };
 
 playNote = function(musicManager, instrument, note, duration, score) {
