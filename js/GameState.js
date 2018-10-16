@@ -232,7 +232,7 @@ gamePlayState.prototype.update = function(){
 
 	for(let i = 0; i < this.backgroundStuff.children.length; i++)
 	{
-		this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 20;
+		this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 8;
 		if(this.backgroundStuff.children[i].y >= 2500)
 		{
 			this.backgroundStuff.children[i].y = -2500;
