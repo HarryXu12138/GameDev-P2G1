@@ -21,6 +21,7 @@ gamePlayState.prototype.init = function(levelNum){
 
 gamePlayState.prototype.create = function(){
 	console.info(levelNumber);
+	game.physics.startSystem(Phaser.Physics.ARCADE);
 
 	//game.stage.backgroundColor = "#4488AA";
 
@@ -60,15 +61,20 @@ gamePlayState.prototype.create = function(){
 
 	//Set up the group for obstacles
 	this.obstacles = game.add.group();
+	this.obstacles.enableBody = true;
 	this.musicManager = new MusicManager(game);
 
 	//Set up player
 	this.player = game.add.sprite(562.5 - 175, 2036, "player");
 	this.player.width = 350;
 	this.player.height = 350;
+	this.player.enableBody = true;
+	game.physics.arcade.enable(this.player);
+
 
 	this.score = 0;
 	this.stunTimer = 0; // if it's greater than zero we count down until it's zero and we aren't stunned
+	console.info("stun timer is " + this.stunTimer);
 	this.planeChannel = 2; // start at the middle channel
 	beatline = 500;
 
@@ -80,6 +86,21 @@ gamePlayState.prototype.create = function(){
 };
 
 gamePlayState.prototype.update = function(){
+	//Check if the player and an obstacles are colliding
+	game.physics.arcade.overlap(this.player, this.obstacles, this.hitObstacle, null, this);
+
+	//tick down stun timer
+	if(this.stunTimer > 0)
+	{
+		this.stunTimer--;
+		console.info(this.stunTimer);
+		if(this.stunTimer === 0)
+		{
+			console.info("not stunned");
+		}
+	}
+
+
 	//If it's been long enough since the last spawn, spawn stars
 	let d = new Date();
 	if(levelNumber !== 0)
@@ -129,7 +150,7 @@ gamePlayState.prototype.update = function(){
 					note.width = 128;	
 					note.score = 1001;
 					note.inputEnabled = true;
-					note.events.onInputDown.add( (note) => { playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else{
 					let spawnProb = Math.random();
@@ -193,17 +214,24 @@ gamePlayState.prototype.update = function(){
 
 };
 
-playNote = function(musicManager, instrument, note, duration, score) {
+gamePlayState.prototype.playNote = function(musicManager, instrument, note, duration, score) {
 	// this gets turned into an anonymous function which already has the correct note passed in etc.
 	// also need to determine how close to the beat you are
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
 	//console.info("got here 2");
-	musicManager.playNote(0, note, duration);
+	console.info("music manager " + this.stunTimer);
+	if(this.stunTimer === 0)//only play music while not stunned
+	{
+		musicManager.playNote(0, note, duration);
+	}
 }
 
 gamePlayState.prototype.increaseScore = function(note) {
-	this.score += note.score;
+	if(this.stunTimer === 0)//only incrase score while not stunned
+	{
+		this.score += note.score;
+	}
 	//console.log("Score: " + this.score);
 }
 
@@ -239,5 +267,14 @@ gamePlayState.prototype.cursorUpListener = function(pointer) {
 			planeMove.start();
 		}
 		// console.log("Swipe detected. Channel = " + this.planeChannel);
+	}
+}
+
+gamePlayState.prototype.hitObstacle = function(player, obstacle){
+	
+	if(this.stunTimer === 0)//if not stunned, activate stun
+	{
+		console.info("stunned");	
+		this.stunTimer = 100;
 	}
 }
