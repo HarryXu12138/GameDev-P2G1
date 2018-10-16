@@ -10,13 +10,18 @@ LevelSelectState.prototype.create = function() {
 };
 
 LevelSelectState.prototype.UISettings = function() {
+    this.levelSelectBackGroundPosition = [0.5 * game.width, 0.45 * game.height];
+    this.levelSelectBackGroundShape = [1000, 1600];
+    this.levelSelectBackGroundTextOffset = -630;
+
     this.levelButtonsSettings = [];
-    let minXY = [0.1, 0.2];
-    let maxX = 0.9;
-    let buttonSpace = [0.2, 0.2];
+    let minXY = [0.27, 0.36];
+    let maxX = 0.8;
+    let buttonSpace = [0.22, 0.1];
+    let buttonShape = [200, 200];
 
     let previousPosition = [minXY[0] - buttonSpace[0], minXY[1]];
-    for (let i = 1; i < 8; ++i) {
+    for (let i = 1; i < 9; ++i) {
         let nextPosition = [previousPosition[0] + buttonSpace[0], previousPosition[1]];
         if (nextPosition[0] >= maxX) {
             nextPosition[0] = minXY[0];
@@ -26,7 +31,7 @@ LevelSelectState.prototype.UISettings = function() {
         nextPosition = [nextPosition[0] * game.width, nextPosition[1] * game.height];
         let setting = {
             position:nextPosition,
-            shape:[200, 200],
+            shape:buttonShape.slice(),
             text:i.toString(),
             style:{
                 font:'bold 80pt Arial',
@@ -35,6 +40,14 @@ LevelSelectState.prototype.UISettings = function() {
         };
         this.levelButtonsSettings.push(setting);
     }
+    let infinitLevelButton = this.levelButtonsSettings[this.levelButtonsSettings.length - 1];
+    infinitLevelButton.position[0] += buttonSpace[0] * game.width / 2;
+    infinitLevelButton.shape[0] = buttonShape[0] + buttonSpace[0] * game.width;
+    infinitLevelButton.text = '∞';
+    infinitLevelButton.style = {
+        font:'bold 150pt Arial',
+        fill:'white'
+    };
 
     this.goBackButtonPosition = [0.9 * game.width, 0.05 * game.height];
     this.goBackButtonShape = [200, 200];
@@ -43,9 +56,21 @@ LevelSelectState.prototype.UISettings = function() {
 };
 
 LevelSelectState.prototype.initializeUI = function() {
+    let backGround = game.add.sprite(this.levelSelectBackGroundPosition[0], this.levelSelectBackGroundPosition[1],
+        'LevelSelectBkground')
+    let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
+        this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
+    bkgroundText.anchor.setTo(0.5, 0.5)
+    backGround.anchor.setTo(0.5, 0.5)
+    backGround.width = this.levelSelectBackGroundShape[0];
+    backGround.height = this.levelSelectBackGroundShape[1];
+
     for (let i = 0; i < this.levelButtonsSettings.length; ++i) {
         let setting = this.levelButtonsSettings[i];
-        this.addGeneralButtonWithText(setting.position, setting.shape, setting.text, setting.style, this.hitLevelButton);
+        let callback = function() {this.hitLevelButton(i + 1)};
+        if (i == this.levelButtonsSettings.length - 1)
+            callback = function() {this.hitLevelButton(0)};
+        this.addGeneralButtonWithText(setting.position, setting.shape, setting.text, setting.style, callback);
     }
     this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
         this.goBackButtonSprite, this.goBackButtonSpriteFrames, this.hitGoBackButton);
@@ -55,8 +80,8 @@ LevelSelectState.prototype.hitGoBackButton = function() {
     game.state.start('MainMenuState');
 };
 
-LevelSelectState.prototype.hitLevelButton = function() {
-	game.state.start('GameState', true, false, 1);
+LevelSelectState.prototype.hitLevelButton = function(levelNumber) {
+	game.state.start('GameState', true, false, levelNumber);
 };
 
 LevelSelectState.prototype.addGeneralButtonWithText = function(position, shape, text, style, callback) {
