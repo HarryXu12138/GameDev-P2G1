@@ -21,7 +21,7 @@ AboutState.prototype.UISettings = function() {
     this.aboutTextSize = 64;
     this.aboutTextCurrentHeight = 1 * game.height;
 
-    this.goBackButtonPosition = [0.9 * game.width, 0.05 * game.height];
+    this.goBackButtonPosition = [0.1 * game.width, 0.05 * game.height];
     this.goBackButtonShape = [200, 200];
     this.goBackButtonSprite = 'GoBackButton';
     this.goBackButtonSpriteFrames = [1, 0, 2, 2];
