@@ -13,7 +13,7 @@ LevelSelectState.prototype.create = function() {
 LevelSelectState.prototype.UISettings = function() {
     this.levelSelectBackGroundPosition = [0.5 * game.width, 0.45 * game.height];
     this.levelSelectBackGroundShape = [1000, 1600];
-    this.levelSelectBackGroundTextOffset = -630;
+    // this.levelSelectBackGroundTextOffset = -630;
 
     this.levelButtonsSettings = [];
     let minXY = [0.27, 0.36];
@@ -22,7 +22,7 @@ LevelSelectState.prototype.UISettings = function() {
     let buttonShape = [200, 200];
 
     let previousPosition = [minXY[0] - buttonSpace[0], minXY[1]];
-    for (let i = 1; i < 9; ++i) {
+    for (let i = 1; i < 10; ++i) {
         let nextPosition = [previousPosition[0] + buttonSpace[0], previousPosition[1]];
         if (nextPosition[0] >= maxX) {
             nextPosition[0] = minXY[0];
@@ -52,9 +52,9 @@ LevelSelectState.prototype.UISettings = function() {
         this.levelButtonsSettings.push(setting);
     }
     let infinitLevelButton = this.levelButtonsSettings[this.levelButtonsSettings.length - 1];
-    infinitLevelButton.position[0] += buttonSpace[0] * game.width / 2;
-    infinitLevelButton.shape[0] = buttonShape[0] + buttonSpace[0] * game.width;
-    if (userLevelNum > 7)
+    // infinitLevelButton.position[0] += buttonSpace[0] * game.width / 2;
+    // infinitLevelButton.shape[0] = buttonShape[0] + buttonSpace[0] * game.width;
+    if (userLevelNum > 8)
         infinitLevelButton.text = '∞';
     infinitLevelButton.style = {
         font:'bold 150pt Arial',
@@ -70,9 +70,9 @@ LevelSelectState.prototype.UISettings = function() {
 LevelSelectState.prototype.initializeUI = function() {
     let backGround = game.add.sprite(this.levelSelectBackGroundPosition[0], this.levelSelectBackGroundPosition[1],
         'LevelSelectBkground')
-    let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
-        this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
-    bkgroundText.anchor.setTo(0.5, 0.5)
+    // let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
+    //     this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
+    // bkgroundText.anchor.setTo(0.5, 0.5)
     backGround.anchor.setTo(0.5, 0.5)
     backGround.width = this.levelSelectBackGroundShape[0];
     backGround.height = this.levelSelectBackGroundShape[1];
