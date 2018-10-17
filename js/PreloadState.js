@@ -35,6 +35,8 @@ PreloadState.prototype.preload = function() {
     game.load.spritesheet("3", "assets/sprites/CloudG1.1.png", 512, 512);
     game.load.spritesheet("4", "assets/sprites/CloudA1.1.png", 512, 512);
 
+    game.load.spritesheet("seagull", "assets/sprites/seagullFlipped.png", 512, 512);
+
     game.load.image("line", "assets/lineprototype2.png");
     game.load.image("player", "assets/player1.png");
     //game.load.spritesheet("playerSS", "assets/sprites/PlayerM.png", 512, 512, 3);
@@ -50,6 +52,10 @@ PreloadState.prototype.preload = function() {
     game.load.text("2", "assets/levels/testSpawning.txt");
     game.load.text("3", "assets/levels/testSpawning.txt");
     game.load.text("4", "assets/levels/testSpawning.txt");
+    game.load.text("5", "assets/levels/testSpawning.txt");
+    game.load.text("6", "assets/levels/testSpawning.txt");
+    game.load.text("7", "assets/levels/testSpawning.txt");
+    game.load.text("8", "assets/levels/testSpawning.txt");
 
 
     //load backgrounds
