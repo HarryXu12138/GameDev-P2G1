@@ -35,7 +35,8 @@ PreloadState.prototype.preload = function() {
     game.load.spritesheet("3", "assets/sprites/CloudG1.1.png", 512, 512);
     game.load.spritesheet("4", "assets/sprites/CloudA1.1.png", 512, 512);
 
-    game.load.spritesheet("seagull", "assets/sprites/seagullFlipped.png", 512, 512);
+    game.load.spritesheet("obst1", "assets/sprites/seagullFlipped.png", 512, 512);
+    game.load.image("obst2", "assets/sprites/lightning_cloud.png");
 
     game.load.image("line", "assets/lineprototype2.png");
     game.load.image("player", "assets/player1.png");

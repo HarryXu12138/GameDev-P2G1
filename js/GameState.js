@@ -157,7 +157,7 @@ gamePlayState.prototype.update = function(){
 					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
-					let obstacle = this.obstacles.create((x*225) - 5, -256, "seagull");
+					let obstacle = this.obstacles.create((x*225) - 5, -256, "obst" + (Math.floor(Math.random() * 2) + 1));
 					obstacle.width = 256;
 					obstacle.height = 256;
 					obstacle.channel = x;
@@ -196,7 +196,7 @@ gamePlayState.prototype.update = function(){
 				else{
 					let spawnProb = Math.random();
 					if(spawnProb < (difficultylevel * .75)/5 && obstNum <= difficultylevel){
-						let obstacle = this.obstacles.create((x*225) - 5, -256, "Level1");
+						let obstacle = this.obstacles.create((x*225) - 5, -256, "obst" + (Math.floor(Math.random() * 2) + 1));
 						obstacle.width = 256;
 						obstacle.height = 256;
 						obstacle.channel = x;
