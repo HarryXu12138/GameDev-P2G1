@@ -104,6 +104,7 @@ gamePlayState.prototype.create = function(){
 
 
 	this.score = 0;
+	this.displayScore = 0;
 	this.notesOnScreen = 0;
 	this.notesHit = 0;
 	this.notesMissed = 0;
@@ -165,6 +166,11 @@ gamePlayState.prototype.initializeUI = function() {
     this.goBackButton.anchor.setTo(0.5, 0.5);
     this.goBackButton.width = goBackButtonShape[0];
     this.goBackButton.height = goBackButtonShape[1];
+
+    this.displayScoreStyle = { font: "65px Courier New", fill: "#ffffff", align: "center" };
+    this.scoreText = game.add.text(game.world.centerX, 0.15 * game.height, "0", this.displayScoreStyle);
+    this.scoreText.align = 'center';
+    this.scoreText.anchor.setTo(0.5, 0.5);
 };
 
 gamePlayState.prototype.update = function(){
@@ -340,7 +346,7 @@ gamePlayState.prototype.update = function(){
 			this.onLevelEnd();
 		}
 	}
-	if (this.displayedAccuracy <= 0.05) {
+	if (this.displayedAccuracy < 0.1) {
 		// console.log("Lost game");
 		this.won = false;
 		this.lost = true;
@@ -348,25 +354,40 @@ gamePlayState.prototype.update = function(){
 		// start loosing!
 	}
 
-	if (this.playing) {
-		// update the score display to move the display closer to the correct accuracy
-		this.displayedAccuracy = (this.displayedAccuracy*2 + this.accuracy)/3;
-		// then move the sprite to the correct value
-		this.accuracyBar.height = (1125/2) * this.displayedAccuracy;
-		if (Math.abs(this.displayedAccuracy - this.accuracy) > .001) {
-			// then screenshake
-			this.usedScoreshake = true;
-			this.accuracyBar.angle = -90 + Math.random()*4-2;
-			this.accuracyBar.x = 1125/4 + Math.random()*20-10;
-			this.accuracyBar.y = 400 + Math.random()*20-10;
-		} else if (this.usedScoreshake) {
-			this.usedScoreshake = false;
-			this.accuracyBar.angle = -90;
-			this.accuracyBar.x = 1125/4;
-			this.accuracyBar.y = 400;
-		}
+	// if (this.playing) {
+	// update the score display to move the display closer to the correct accuracy
+	this.displayedAccuracy = (this.displayedAccuracy*2 + this.accuracy)/3;
+	// then move the sprite to the correct value
+	this.accuracyBar.height = (1125/2) * this.displayedAccuracy;
+	if (Math.abs(this.displayedAccuracy - this.accuracy) > .001) {
+		// then screenshake
+		this.usedScoreshake = true;
+		this.accuracyBar.angle = -90 + Math.random()*4-2;
+		this.accuracyBar.x = 1125/4 + Math.random()*20-10;
+		this.accuracyBar.y = 400 + Math.random()*20-10;
+	} else if (this.usedScoreshake) {
+		this.usedScoreshake = false;
+		this.accuracyBar.angle = -90;
+		this.accuracyBar.x = 1125/4;
+		this.accuracyBar.y = 400;
+	}
+	// }
+	let scoreDelta = this.score - this.displayScore;
+	if (Math.abs(scoreDelta) <= 7 && scoreDelta != 0) {
+		this.displayScore += scoreDelta/Math.abs(scoreDelta);
+		this.scoreText.x = game.world.centerX + Math.random()*5 - 2.5;
+		this.scoreText.y = 0.15 * game.height + Math.random()*5 - 2.5;
+	}
+	else if (scoreDelta != 0) {
+		this.displayScore += Math.round(scoreDelta/5);
+		this.scoreText.x = game.world.centerX + Math.random()*10 - 5;
+		this.scoreText.y = 0.15 * game.height + Math.random()*10 - 5;
+	} else {
+		this.scoreText.x = game.world.centerX;
+		this.scoreText.y = 0.15 * game.height;
 	}
 
+	this.scoreText.text = this.displayScore;
 	this.goBackButton.bringToTop();
 };
 
