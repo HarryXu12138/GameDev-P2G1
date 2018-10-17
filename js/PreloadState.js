@@ -47,7 +47,12 @@ PreloadState.prototype.preload = function() {
     game.load.image("playerL", "assets/sprites/PlayerML.png");
     game.load.image("playerR", "assets/sprites/PlayerMR.png");
 
-    game.load.image('ScoreDisplayBackground', 'assets/UI/ScoreWindow.png')
+    game.load.image('ScoreDisplayBackground', 'assets/UI/ScoreWindow.png');
+    game.load.image('accuracyBar', 'assets/UI/UI2.png');
+    game.load.image("retryButton", "assets/UI/UI3.png");
+    game.load.image("nextButton", "assets/UI/UI4.png");
+    game.load.image("hamburgerButton", "assets/UI/UI5.png");
+
 
 
     // load audio:
@@ -66,11 +71,11 @@ PreloadState.prototype.preload = function() {
 
     //load backgrounds
     //game.load.image("cloudBG", "assets/sprites/Backgrounds/bg_cloud.png");
-    game.load.image("bg1", "assets/sprites/Backgrounds/bg_1.1.png");
+    game.load.image("bg4", "assets/sprites/Backgrounds/bg_1.1.png");
     //game.load.image("bg1.2", "assets/sprites/Backgrounds/bg_1.2.png");
     game.load.image("bg2", "assets/sprites/Backgrounds/bg_2.1clouded.png");
     game.load.image("bg3", "assets/sprites/Backgrounds/bg_3.1.png");
-    game.load.image("bg4", "assets/sprites/Backgrounds/bg_4.png");
+    game.load.image("bg1", "assets/sprites/Backgrounds/bg_4.png");
     game.load.image("bg5", "assets/sprites/Backgrounds/bg_3.1.png");
     game.load.image("bg6", "assets/sprites/Backgrounds/bg_1.1.png");
     game.load.image("bg7", "assets/sprites/Backgrounds/bg_2.1clouded.png");

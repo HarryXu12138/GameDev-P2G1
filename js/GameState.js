@@ -34,6 +34,7 @@ gamePlayState.prototype.init = function(levelNum){
 };
 
 gamePlayState.prototype.create = function(){
+	this.addCheatKeys();
 	console.info(levelNumber);
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 
@@ -139,10 +140,9 @@ gamePlayState.prototype.create = function(){
 	this.accuracy = this.accuracyCorrect / (this.accuracyBufferLength);
 	this.displayedAccuracy = this.accuracy;
 
-	this.accuracyBar = game.add.sprite(1125/4, 400, "line");
-	this.accuracyBar.height = 1125/2;
-	this.accuracyBar.angle = -90;
-	this.accuracyBar.width = 200;
+	this.accuracyBar = game.add.sprite(1125/8, 120, "accuracyBar");
+	this.accuracyBar.width = 1125/4*3;
+	this.accuracyBar.height = 200;
 	// this.accuracyBar.width 
 	this.accuracyBar.alpha = 1;
 
@@ -367,18 +367,18 @@ gamePlayState.prototype.update = function(){
 	// update the score display to move the display closer to the correct accuracy
 	this.displayedAccuracy = (this.displayedAccuracy*2 + this.accuracy)/3;
 	// then move the sprite to the correct value
-	this.accuracyBar.height = (1125/2) * this.displayedAccuracy;
+	this.accuracyBar.width = (1125/4*3) * this.displayedAccuracy;
 	if (Math.abs(this.displayedAccuracy - this.accuracy) > .001) {
 		// then screenshake
 		this.usedScoreshake = true;
-		this.accuracyBar.angle = -90 + Math.random()*4-2;
-		this.accuracyBar.x = 1125/4 + Math.random()*20-10;
-		this.accuracyBar.y = 400 + Math.random()*20-10;
+		this.accuracyBar.angle = Math.random()*4-2;
+		this.accuracyBar.x = 1125/8 + Math.random()*20-10;
+		this.accuracyBar.y = 120 + Math.random()*20-10;
 	} else if (this.usedScoreshake) {
 		this.usedScoreshake = false;
-		this.accuracyBar.angle = -90;
-		this.accuracyBar.x = 1125/4;
-		this.accuracyBar.y = 400;
+		this.accuracyBar.angle = 0;
+		this.accuracyBar.x = 1125/8;
+		this.accuracyBar.y = 120;
 	}
 	// }
 	let scoreDelta = this.score - this.displayScore;
@@ -409,6 +409,7 @@ gamePlayState.prototype.showScoreUI = function() {
 	backGround.anchor.setTo(0.5, 0.5)
     backGround.width = 1000;
     backGround.height = 1600;
+	backGround.angle = 180;
 
     // create the you win! or you loose! text
     let youWinTextContent = "You Win!";
@@ -420,25 +421,25 @@ gamePlayState.prototype.showScoreUI = function() {
     	}
     }
     let youWinTextStyle = { font: "80px Courier New", fill: "#000000", align: "center" };
-    let youWinText = game.add.text(game.world.centerX, 0.2 * game.height, youWinTextContent, youWinTextStyle);
+    let youWinText = game.add.text(game.world.centerX, 0.15 * game.height, youWinTextContent, youWinTextStyle);
     youWinText.align = 'center';
     youWinText.anchor.setTo(0.5, 0.5);
     // then display the summary of what happened I guess...
     let summaryTextText = "You messed it up this time. Try again!";
-    if (this.won) {
+    if (this.won || levelNumber === 0) {
 	    switch(levelNumber) {
     	case 0:
     		// the infinite level
 		    summaryTextText = "Another happy flight and another happy song!";
     		break;
     	case 1:
-    		summaryTextText = "What a song, but it wasn't quite there. Maybe the next song will be a hit...";
+    		summaryTextText = "That one was close! But not quite Eurovision Quality. Maybe next song!";
     		break;
     	case 2:
     		summaryTextText = "It's getting faster now!";
     		break;
     	case 3:
-    		summaryTextText = "That one was close! But not quite Eurovision Quality. Maybe next song.";
+    		summaryTextText = "What a song, but it wasn't quite there. Maybe the next song will be a hit...";
     		break;
     	case 4:
     		summaryTextText = "Now that's a tune! But the judges still don't like it...";
@@ -457,19 +458,44 @@ gamePlayState.prototype.showScoreUI = function() {
     		break;
     	}
     }
-    let summaryTextStyle = { font: "65px Courier New", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth:900};
+    let summaryTextStyle = { font: "65px Courier New", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth:800};
     let summaryText = game.add.text(game.world.centerX, 0.3 * game.height, summaryTextText, summaryTextStyle);
     summaryText.align = 'center';
     summaryText.anchor.setTo(0.5, 0.5);
 
-	let accuracyText = game.add.text(game.world.centerX, 0.5 * game.height, "Hit " + this.notesHit " out of " + (this.notesHit+this.notesMissed) + " notes!", summaryTextStyle);
+    let accuracyTextText = "Hit " + this.notesHit + " out of " + (this.notesHit+this.notesMissed) + " notes!";
+	let accuracyText = game.add.text(game.world.centerX, 0.4 * game.height, accuracyTextText, summaryTextStyle);
     accuracyText.align = 'center';
     accuracyText.anchor.setTo(0.5, 0.5);
 
     if (this.won) {
-	    let scoreText = game.add.text(game.world.centerX, 0.6 * game.height, "Score: " + this.score, summaryTextStyle);
+	    let scoreText = game.add.text(game.world.centerX, 0.5 * game.height, "Score: " + this.score, summaryTextStyle);
 	    scoreText.align = 'center';
 	    scoreText.anchor.setTo(0.5, 0.5);
+	}
+
+	// then add the buttons that go to the next level or retry
+	let retryButton = game.add.button(1125/3, .7*game.height, "retryButton", () => {game.state.start('GameState', true, false, levelNumber);}, this);
+    retryButton.anchor.setTo(0.5, 0.5);
+    retryButton.width = 200;
+    retryButton.height = 200;
+    retryButton.inputEnabled = true;
+
+    if (levelNumber < 8 && this.won) {
+	    let nextButton = game.add.button(1125/3*2, .7*game.height, "nextButton", () => {game.state.start('GameState', true, false, levelNumber + 1);}, this);
+	    nextButton.anchor.setTo(0.5, 0.5);
+	    nextButton.width = 200;
+	    nextButton.height = 200;
+	    nextButton.inputEnabled = true;
+	    nextButton.angle = 180; // to flip the direction of the arrow
+	} else {
+		// then you've unlocked the infinite levels so display level select instead
+		let nextButton = game.add.button(1125/3*2, .7*game.height, "hamburgerButton", () => {game.state.start('LevelSelectState');}, this);
+	    nextButton.anchor.setTo(0.5, 0.5);
+	    nextButton.width = 200;
+	    nextButton.height = 200;
+	    nextButton.inputEnabled = true;
+	    nextButton.angle = 180; // to flip the direction of the arrow
 	}
 
 
@@ -491,6 +517,28 @@ gamePlayState.prototype.playNote = function(noteIn, musicManager, instrument, no
 		}
 	}
 }
+
+gamePlayState.prototype.addCheatKeys = function() {
+    // keys for lock all levels and unlock next level
+    let winKey = game.input.keyboard.addKey(Phaser.Keyboard.W);
+    let lossKey = game.input.keyboard.addKey(Phaser.Keyboard.L);
+
+    // Callback functions for those keys. Directly change the levelNum
+    let winLevel = function() {
+    	this.won = true;
+    	this.lost = false;
+    	this.playing = false;
+    	this.onLevelEnd(); // to unlock the next level :P
+    };
+    let loseLevel = function() {
+    	this.lost = true;
+    	this.won = false;
+    	this.playing = false;
+    };
+    // Add listener
+    winKey.onUp.add(winLevel, this);
+    lossKey.onUp.add(loseLevel, this);
+};
 
 gamePlayState.prototype.increaseScore = function(noteIn) {
 	if (!noteIn.hasBeenTapped && this.playing) {

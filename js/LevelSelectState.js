@@ -9,8 +9,8 @@ LevelSelectState.prototype.preload = function() {
 LevelSelectState.prototype.create = function() {
     // add background art that scrolls
     this.backgroundStuff = game.add.group();
-    let background1 = this.backgroundStuff.create(0,0, "bg4");
-    let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg4");
+    let background1 = this.backgroundStuff.create(0,0, "bg1");
+    let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg1");
 
     this.plane = game.add.sprite(562.5 - 175, menuPlaneY, "playerN");
     this.plane.width = 350;
