@@ -146,19 +146,19 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < currentLine.length; x++){
 				if(currentLine.charAt(x) === "1"){
 					//console.info("got here");
-					let note = this.notes.create((x*225) + 112.5/2, -128, "A1");
+					let note = this.notes.create((x*225) - 20, -256, "" + x);
 					note.moving = true;
-					note.height = 512;
-					note.width = 512;
+					note.height = 256;
+					note.width = 256;
 					note.score = 1001;
 					note.inputEnabled = true;
 					note.animations.add("clicked", [0,1,2], 6, false);
 					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
-					let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
-					obstacle.width = 128;
-					obstacle.height = 128;
+					let obstacle = this.obstacles.create((x*225) - 20, -256, "Level1");
+					obstacle.width = 256;
+					obstacle.height = 256;
 					obstacle.channel = x;
 				}
 			}
@@ -181,20 +181,21 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < 5; x++){
 				if(x === notePlace)
 				{
-					let note = this.notes.create((x*225) + 112.5/2, -128, "quarternote");
+					let note = this.notes.create((x*225) - 20, -256, "" + x);
 					note.moving = true;
-					note.height = 128;
-					note.width = 128;	
+					note.height = 256;
+					note.width = 256;	
 					note.score = 1001;
 					note.inputEnabled = true;
+
 					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else{
 					let spawnProb = Math.random();
 					if(spawnProb < (difficultylevel * .75)/5 && obstNum <= difficultylevel){
-						let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
-						obstacle.width = 128;
-						obstacle.height = 128;
+						let obstacle = this.obstacles.create((x*225) - 20, -256, "Level1");
+						obstacle.width = 256;
+						obstacle.height = 256;
 						obstacle.channel = x;
 						obstNum++;
 					}

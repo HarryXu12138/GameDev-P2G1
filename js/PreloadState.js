@@ -29,7 +29,12 @@ PreloadState.prototype.preload = function() {
     game.load.image('Level1', 'assets/cloudprototype.png');
     //game.load.image("quarternote", "assets/notecloudQuarter.png");
     //note images
-    game.load.spritesheet("A1", "assets/sprites/CloudA1.1.png", 512, 512);
+    game.load.spritesheet("0", "assets/sprites/CloudC1.1.png", 512, 512);
+    game.load.spritesheet("1", "assets/sprites/CloudD1.1.png", 512, 512);
+    game.load.spritesheet("2", "assets/sprites/CloudE1.1.png", 512, 512);
+    game.load.spritesheet("3", "assets/sprites/CloudG1.1.png", 512, 512);
+    game.load.spritesheet("4", "assets/sprites/CloudA1.1.png", 512, 512);
+
     game.load.image("line", "assets/lineprototype2.png");
     game.load.image("player", "assets/player1.png");
     //game.load.spritesheet("playerSS", "assets/sprites/PlayerM.png", 512, 512, 3);
