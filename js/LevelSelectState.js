@@ -29,7 +29,8 @@ LevelSelectState.prototype.UISettings = function() {
     this.levelSelectBackGroundPosition = [0.5 * game.width, 0.45 * game.height];
     this.levelSelectBackGroundShape = [1000, 1600];
     // Deprecated but will keep it. This is for the fancy UI(version 1) UI
-    // this.levelSelectBackGroundTextOffset = -630;
+    // NVM
+    this.levelSelectBackGroundTextOffset = -630;
 
     // Initialize all level buttons
     this.levelButtonsSettings = [];
@@ -126,9 +127,9 @@ LevelSelectState.prototype.initializeUI = function() {
     // Initialize the background of level select
     let backGround = game.add.sprite(this.levelSelectBackGroundPosition[0], this.levelSelectBackGroundPosition[1],
         'LevelSelectBkground')
-    // let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
-    //     this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
-    // bkgroundText.anchor.setTo(0.5, 0.5)
+    let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
+        this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
+    bkgroundText.anchor.setTo(0.5, 0.5)
     backGround.anchor.setTo(0.5, 0.5)
     backGround.width = this.levelSelectBackGroundShape[0];
     backGround.height = this.levelSelectBackGroundShape[1];
