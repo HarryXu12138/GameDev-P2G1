@@ -38,17 +38,18 @@ gamePlayState.prototype.create = function(){
 
 	this.backgroundStuff = game.add.group();
 
-	//let background1 = this.backgroundStuff.create(0,0, "bg1.1");
+	let background1 = this.backgroundStuff.create(0,0, "groundBG");
 	//background1.height = 2500;
 	//background1.width = 1125;
 
-	//let background2 = this.backgroundStuff.create(0,-2500, "bg1.1");
+	let background2 = this.backgroundStuff.create(0,-2500, "groundBG");
+	background2.y = -1 * background2.height;
 	//background2.height = 2500;
 	//background2.width = 1125;
 
-	let backgroundF = game.add.sprite(0,-2500, "bg1.2");
-	backgroundF.height = 2500;
-	backgroundF.width = 1125;
+	//let backgroundF = game.add.sprite(0,-2500, "bg1.2");
+	//backgroundF.height = 2500;
+	//backgroundF.width = 1125;
 
 	//Pull info file for this level out of the cache and load it into line info, splitting it per line
 	if(levelNumber !== 0){
@@ -241,9 +242,9 @@ gamePlayState.prototype.update = function(){
 	for(let i = 0; i < this.backgroundStuff.children.length; i++)
 	{
 		this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 8;
-		if(this.backgroundStuff.children[i].y >= 2500)
+		if(this.backgroundStuff.children[i].y >= this.backgroundStuff.children[i].height)
 		{
-			this.backgroundStuff.children[i].y = -2500;
+			this.backgroundStuff.children[i].y = -1 * this.backgroundStuff.children[i].height;
 		}
 	}
 
