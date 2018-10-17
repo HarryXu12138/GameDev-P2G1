@@ -136,6 +136,7 @@ gamePlayState.prototype.update = function(){
 	{
 		if((d.getTime() - timeSince >= (60/bpm) * 1000) && spawning){
 			let currentLine = lineInfo[lineNumber];
+			console.info(currentLine);
 			//parse through the current line from the level info doc, spawning a star if there's a 1
 			for(let x = 0; x < currentLine.length; x++){
 				if(currentLine.charAt(x) === "1"){
