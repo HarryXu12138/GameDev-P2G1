@@ -5,7 +5,7 @@ let PreloadState = function() {
 
 PreloadState.prototype.preload = function() {
     // Buttons
-    game.load.spritesheet('StartButton', 'assets/buttons/StartButtonSpriteSheet.png', 205, 202);
+    game.load.spritesheet('StartButton', 'assets/buttons/StartButtonSpriteSheet v2.png', 512, 512);
     game.load.spritesheet('AboutButton', 'assets/buttons/AboutButton.png', 206, 209);
     game.load.spritesheet('GoBackButton', 'assets/buttons/GoBackButton.png', 206, 212);
     game.load.spritesheet('HowToPlayButton', 'assets/buttons/HowToPlayButton.png', 205, 209);
@@ -17,7 +17,7 @@ PreloadState.prototype.preload = function() {
     // End sprite fonts
 
     // Level Select State
-    game.load.image('LevelSelectBkground', 'assets/levelSelector/LevelSelectBkground.png')
+    game.load.image('LevelSelectBkground', 'assets/levelSelector/LevelSelectBkground v2.png')
     game.load.image('LevelSelectText', 'assets/levelSelector/LevelSelectText.png')
     // End Level Select State
 
