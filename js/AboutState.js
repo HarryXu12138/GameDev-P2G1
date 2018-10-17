@@ -10,13 +10,15 @@ AboutState.prototype.create = function() {
 };
 
 AboutState.prototype.update = function() {
+    // When starting the state scroll up the about text and stop in a point
     this.aboutTextCurrentHeight -= game.height * 0.002;
     this.aboutText.y = this.aboutTextCurrentHeight;
     if (this.aboutText.bottom < -100) game.state.start('MainMenuState');
 };
 
 AboutState.prototype.UISettings = function() {
-    this.aboutText = game.cache.getText('AboutText');
+    // Settings for different parts of UI
+    this.aboutTextContent = game.cache.getText('AboutText');
     this.aboutTextStartPosition = [0.05 * game.width, 1 * game.height];
     this.aboutTextSize = 64;
     this.aboutTextCurrentHeight = 1 * game.height;
@@ -28,17 +30,21 @@ AboutState.prototype.UISettings = function() {
 };
 
 AboutState.prototype.initializeUI = function() {
+    // Callback function for the button
     let hitGoBackButton = function() {game.state.start('MainMenuState');};
+    // Initialize the text
     this.aboutText = game.add.bitmapText(this.aboutTextStartPosition[0], this.aboutTextStartPosition[1],
-        'DefaultFont', this.aboutText, this.aboutTextSize);
+        'DefaultFont', this.aboutTextContent, this.aboutTextSize);
     this.aboutText.align = 'left';
     this.aboutText.anchor.setTo(0, 0);
     this.aboutText.maxWidth = 1050;
 
+    // Add the button
     this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
         this.goBackButtonSprite, this.goBackButtonSpriteFrames, hitGoBackButton);
 };
 
+// General add button function
 AboutState.prototype.addButton = function(position, shape, sprite, spriteFrames, callback) {
     let newButton = game.add.button(position[0], position[1], sprite, callback, this,
         spriteFrames[0], spriteFrames[1], spriteFrames[2], spriteFrames[3]);
