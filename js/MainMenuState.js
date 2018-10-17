@@ -17,6 +17,10 @@ MainMenuState.prototype.create = function() {
     let background1 = this.backgroundStuff.create(0,0, "bg4");
     let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg4");
 
+    this.plane = game.add.sprite(562.5 - 175, menuPlaneY, "playerN");
+    this.plane.width = 350;
+    this.plane.height = 350;
+    // this.plane.enableBody = true;
 
     // Initiate UI stuff with UI settings
     this.initializeUI();
@@ -24,10 +28,10 @@ MainMenuState.prototype.create = function() {
 
 MainMenuState.prototype.update = function() {
     // change the background color for every second
-    if (game.time.totalElapsedSeconds() - this.lastBkgroundUpdate > 1) {
-        this.lastBkgroundUpdate = game.time.totalElapsedSeconds();
-        game.stage.backgroundColor = Phaser.ArrayUtils.getRandomItem(this.colors);
-    }
+    // if (game.time.totalElapsedSeconds() - this.lastBkgroundUpdate > 1) {
+    //     this.lastBkgroundUpdate = game.time.totalElapsedSeconds();
+    //     game.stage.backgroundColor = Phaser.ArrayUtils.getRandomItem(this.colors);
+    // }
 
     // scroll the background
     for(let i = 0; i < this.backgroundStuff.children.length; i++)
@@ -38,6 +42,14 @@ MainMenuState.prototype.update = function() {
             this.backgroundStuff.children[i].y = -1 * this.backgroundStuff.children[i].height;
         }
     }
+
+    // move the plane to where it should be
+    if (menuPlaneY > 2036) {
+        // move it towards the location
+        let delta = (2036 - menuPlaneY)/50;
+        menuPlaneY = menuPlaneY + Math.max(delta, -20);
+    }
+    this.plane.y = menuPlaneY;
 };
 
 MainMenuState.prototype.shutdown = function() {

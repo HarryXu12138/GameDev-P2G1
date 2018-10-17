@@ -7,6 +7,17 @@ LevelSelectState.prototype.preload = function() {
 };
 
 LevelSelectState.prototype.create = function() {
+    // add background art that scrolls
+    this.backgroundStuff = game.add.group();
+    let background1 = this.backgroundStuff.create(0,0, "bg4");
+    let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg4");
+
+    this.plane = game.add.sprite(562.5 - 175, menuPlaneY, "playerN");
+    this.plane.width = 350;
+    this.plane.height = 350;
+    // this.plane.enableBody = true;
+
+
     // UI initialization
     this.initializeUI();
     // Cheat keys, disable if not for debugging
@@ -90,6 +101,26 @@ LevelSelectState.prototype.UISettings = function() {
     this.goBackButtonSprite = 'GoBackButton';
     this.goBackButtonSpriteFrames = [1, 0, 2, 2];
 };
+
+LevelSelectState.prototype.update = function() {
+    // this updates the background and plane
+    // scroll the background
+    for(let i = 0; i < this.backgroundStuff.children.length; i++)
+    {
+        this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 8;
+        if(this.backgroundStuff.children[i].y >= this.backgroundStuff.children[i].height)
+        {
+            this.backgroundStuff.children[i].y = -1 * this.backgroundStuff.children[i].height;
+        }
+    }
+    // move the plane to where it should be
+    if (menuPlaneY > 2036) {
+        // move it towards the location
+        let delta = (2036 - menuPlaneY)/50;
+        menuPlaneY = menuPlaneY + Math.max(delta, -20);
+    }
+    this.plane.y = menuPlaneY;
+}
 
 LevelSelectState.prototype.initializeUI = function() {
     // Initialize the background of level select

@@ -1,4 +1,6 @@
 let userLevelNum = 1;
+let menuScrollingBackgroundY = 0;
+let menuPlaneY = 2500; // start offscreen
 
 let PreloadState = function() {
 };

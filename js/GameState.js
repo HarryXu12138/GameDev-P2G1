@@ -184,12 +184,14 @@ gamePlayState.prototype.update = function(){
 		if (this.player.y < -450) {
 			// then move to the win screen, or for now, the level select screen
 			game.state.start('LevelSelectState');
+			menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
 		}
 	} else if (this.lost) {
 		this.planeSpeed -= .5;
 		this.player.y -= this.planeSpeed;
 		if (this.player.y > 2500) {
 			game.state.start('LevelSelectState');
+			menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
 		}
 	}
 
