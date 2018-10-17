@@ -213,7 +213,7 @@ gamePlayState.prototype.update = function(){
 					note.width = 128;
 					note.score = 1001;
 					note.inputEnabled = true;
-					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+					note.events.onInputDown.add( (note) => { this.playNote(note, this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
 					let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
@@ -248,9 +248,9 @@ gamePlayState.prototype.update = function(){
 					note.score = 1001;
 					note.inputEnabled = true;
 					note.collumn = x;
-					note.events.onInputDown.add( (note) => { this.playNote(note, this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+					note.events.onInputDown.add( () => { this.playNote(this.musicManager, 0, x, 0, 100, note); this.increaseScore(note); }, this);
 				}
-				else{
+				else {
 					let spawnProb = Math.random();
 					if(spawnProb < (difficultylevel * .75)/5 && obstNum <= difficultylevel){
 						let obstacle = this.obstacles.create((x*225) + 112.5/2, -128, "Level1");
@@ -317,7 +317,7 @@ gamePlayState.prototype.update = function(){
 		}
 	}
 	if (this.displayedAccuracy <= 0.01) {
-		console.log("Lost game");
+		// console.log("Lost game");
 		this.won = false;
 		this.lost = true;
 		this.playing = false;
@@ -346,14 +346,15 @@ gamePlayState.prototype.update = function(){
 	this.goBackButton.bringToTop();
 };
 
-gamePlayState.prototype.playNote = function(noteObject, musicManager, instrument, note, duration, score) {
+gamePlayState.prototype.playNote = function(noteIn, musicManager, instrument, note, duration, score) {
 	// this gets turned into an anonymous function which already has the correct note passed in etc.
 	// also need to determine how close to the beat you are
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
 	//console.info("got here 2");
 	//console.info("music manager " + this.stunTimer);
-	if (this.playing && !noteObject.hasBeenTapped) {
+	// console.log(noteSprite);
+	if (this.playing && !noteIn.hasBeenTapped) {
 		if(this.stunTimer === 0)//only play music while not stunned
 		{
 			musicManager.playNote(0, note, duration);
@@ -361,12 +362,13 @@ gamePlayState.prototype.playNote = function(noteObject, musicManager, instrument
 	}
 }
 
-gamePlayState.prototype.increaseScore = function(note) {
-	if (!note.hasBeenTapped && this.playing) {
+gamePlayState.prototype.increaseScore = function(noteIn) {
+	if (!noteIn.hasBeenTapped && this.playing) {
 		if(this.stunTimer === 0)//only incrase score while not stunned
 		{
-			this.score += note.score;
-			note.hasBeenTapped = true;
+			this.score += noteIn.score;
+			console.log(this.score);
+			noteIn.hasBeenTapped = true;
 			this.notesHit++; // accuracy increases!
 			this.notesOnScreen--;
 			this.updateAccuracy(true);
