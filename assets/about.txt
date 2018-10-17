@@ -1,9 +1,9 @@
 Programmers:
-Jorden
-Alex
+Jordan Faas-Bush
+Alex Weisenbach
 Junhao Xu
 
 Artists:
 Jimmy Jin
 
-A project of Game Development Course from RPI
+A project for RPI's Game Development 1 course
