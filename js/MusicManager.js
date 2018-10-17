@@ -14,14 +14,13 @@ class MusicManager {
 		this.pianoNotes.push(this.game.add.audio("p_d5_quarter"));
 		this.pianoNotes.push(this.game.add.audio("p_e5_quarter"));
 		this.pianoNotes.push(this.game.add.audio("p_g5_quarter"));
-		this.pianoNotes.push(this.game.add.audio("p_a5_quarter"));
+		this.pianoNotes.push(this.game.add.audio("p_a6_quarter"));
 		// add the half notes after the quarter notes
 
 		// then add the whole notes
 	}
 
 	playNote(instrument, note, duration) {
-		console.info("got here");
 		var notes;
 		switch(instrument) {
 			case 0:

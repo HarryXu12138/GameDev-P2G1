@@ -61,10 +61,20 @@ gamePlayState.prototype.create = function(){
 
 	//Create the "staff" on the screen
 	let line1 = game.add.sprite(95.5 - 56.25, 0, "line");
+	line1.height = 2500;
+	line1.alpha = .4;
 	let line2 = game.add.sprite(95.5 - 56.25 + 225, 0, "line");
+	line2.height = 2500;
+	line2.alpha = .4;
 	let line3 = game.add.sprite(95.5 - 56.25 + 225 * 2, 0, "line");
+	line3.height = 2500;
+	line3.alpha = .4;
 	let line4 = game.add.sprite(95.5 - 56.25 + 225 * 3, 0, "line");
+	line4.height = 2500;
+	line4.alpha = .4;
 	let line5 = game.add.sprite(95.5 - 56.25 + 225 * 4, 0, "line");
+	line5.height = 2500;
+	line5.alpha = .4;
 
 	//Set up the group for notes
 	this.notes = game.add.group();
