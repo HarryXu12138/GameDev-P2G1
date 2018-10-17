@@ -99,4 +99,7 @@ PreloadState.prototype.loadNotes = function() {
 	game.load.audio('p_e5_quarter', 'assets/audio/notes/piano_e5_quarter.mp3');
 	game.load.audio('p_g5_quarter', 'assets/audio/notes/piano_g5_quarter.mp3');
 	game.load.audio('p_a6_quarter', 'assets/audio/notes/piano_a6_quarter.mp3');
+
+    game.load.audio('cymbalCrash1', 'assets/audio/cymbals/34818__zin__crash-1-hit-2-cut.wav');
+    game.load.audio('cymbalCrash2', 'assets/audio/cymbals/34819__zin__crash-2-hit-1.wav');
 }

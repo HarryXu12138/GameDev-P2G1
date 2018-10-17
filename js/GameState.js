@@ -140,7 +140,7 @@ gamePlayState.prototype.create = function(){
 	this.accuracy = this.accuracyCorrect / (this.accuracyBufferLength);
 	this.displayedAccuracy = this.accuracy;
 
-	this.accuracyBar = game.add.sprite(1125/8, 120, "accuracyBar");
+	this.accuracyBar = game.add.sprite(1125/8, 140, "accuracyBar");
 	this.accuracyBar.width = 1125/4*3;
 	this.accuracyBar.height = 200;
 	// this.accuracyBar.width 
@@ -176,8 +176,9 @@ gamePlayState.prototype.initializeUI = function() {
 
 gamePlayState.prototype.update = function(){
 	//Check if the player and an obstacles are colliding
-	game.physics.arcade.overlap(this.player, this.obstacles, this.hitObstacle, null, this);
-
+	if (this.playing) {
+		game.physics.arcade.overlap(this.player, this.obstacles, this.hitObstacle, null, this);
+	}
 	if (this.won) {
 		// then move the player sprite vertically upwards, and if they are off screen go to the win screen!
 		this.planeSpeed += .5; // accelerate each frame
@@ -373,12 +374,12 @@ gamePlayState.prototype.update = function(){
 		this.usedScoreshake = true;
 		this.accuracyBar.angle = Math.random()*4-2;
 		this.accuracyBar.x = 1125/8 + Math.random()*20-10;
-		this.accuracyBar.y = 120 + Math.random()*20-10;
+		this.accuracyBar.y = 140 + Math.random()*20-10;
 	} else if (this.usedScoreshake) {
 		this.usedScoreshake = false;
 		this.accuracyBar.angle = 0;
 		this.accuracyBar.x = 1125/8;
-		this.accuracyBar.y = 120;
+		this.accuracyBar.y = 140;
 	}
 	// }
 	let scoreDelta = this.score - this.displayScore;
@@ -624,6 +625,7 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 	
 	if(this.stunTimer === 0 && obst.channel === this.planeChannel)//if not stunned, activate stun
 	{
+		this.musicManager.playRandomCymbal();
 		//console.info("stunned");	
 		this.player.alpha = 0.80;
 		this.stunTimer = 100;

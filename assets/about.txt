@@ -7,3 +7,5 @@ Artists:
 Jimmy Jin
 
 A project for RPI's Game Development I course
+
+Cymbal crashes by -zin- on freesound.org

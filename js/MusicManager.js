@@ -5,6 +5,7 @@ class MusicManager {
 
 		this.pianoNotes = []
 		this.createPianoNotes();
+		this.cymbalNotes = [this.game.add.audio("cymbalCrash1"), this.game.add.audio("cymbalCrash2")]
 	}
 
 	createPianoNotes() {
@@ -18,6 +19,10 @@ class MusicManager {
 		// add the half notes after the quarter notes
 
 		// then add the whole notes
+	}
+
+	playRandomCymbal() {
+		this.cymbalNotes[Math.floor(Math.random()*this.cymbalNotes.length)].play();
 	}
 
 	playNote(instrument, note, duration) {
