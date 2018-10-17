@@ -6,4 +6,4 @@ Junhao Xu
 Artists:
 Jimmy Jin
 
-A project for RPI's Game Development 1 course
+A project for RPI's Game Development I course

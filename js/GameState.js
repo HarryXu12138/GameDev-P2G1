@@ -119,6 +119,7 @@ gamePlayState.prototype.create = function(){
 	this.lost = false;
 	this.playing = true;
 	spawning = true;
+	this.hasShownScoreUI = false;
 
 	// this is for accuray counting
 	this.accuracyBuffer = [];
@@ -183,15 +184,21 @@ gamePlayState.prototype.update = function(){
 		this.player.y -= this.planeSpeed;
 		if (this.player.y < -450) {
 			// then move to the win screen, or for now, the level select screen
-			game.state.start('LevelSelectState');
-			menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
+			if (!this.hasShownScoreUI) {
+				this.hasShownScoreUI = true;
+				this.showScoreUI();
+				menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
+			}
 		}
 	} else if (this.lost) {
 		this.planeSpeed -= .5;
 		this.player.y -= this.planeSpeed;
 		if (this.player.y > 2500) {
-			game.state.start('LevelSelectState');
-			menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
+			if (!this.hasShownScoreUI) {
+				this.hasShownScoreUI = true;
+				this.showScoreUI();
+				menuPlaneY = game.height; // so that it starts off screen and everything looks nice in the menu
+			}
 		}
 	}
 
@@ -393,6 +400,82 @@ gamePlayState.prototype.update = function(){
 	this.goBackButton.bringToTop();
 };
 
+gamePlayState.prototype.showScoreUI = function() {
+	// disable the score and accuracy in the background!
+	this.accuracyBar.alpha = 0; // hide it
+
+	// create the background
+	let backGround = game.add.sprite(game.world.centerX, game.height*.45, 'ScoreDisplayBackground');
+	backGround.anchor.setTo(0.5, 0.5)
+    backGround.width = 1000;
+    backGround.height = 1600;
+
+    // create the you win! or you loose! text
+    let youWinTextContent = "You Win!";
+    if (this.lost) {
+    	youWinTextContent = "Uh Oh...";
+    	if (levelNumber === 0) {
+    		// infinite
+    		youWinTextContent = "Nice Job!";
+    	}
+    }
+    let youWinTextStyle = { font: "80px Courier New", fill: "#000000", align: "center" };
+    let youWinText = game.add.text(game.world.centerX, 0.2 * game.height, youWinTextContent, youWinTextStyle);
+    youWinText.align = 'center';
+    youWinText.anchor.setTo(0.5, 0.5);
+    // then display the summary of what happened I guess...
+    let summaryTextText = "You messed it up this time. Try again!";
+    if (this.won) {
+	    switch(levelNumber) {
+    	case 0:
+    		// the infinite level
+		    summaryTextText = "Another happy flight and another happy song!";
+    		break;
+    	case 1:
+    		summaryTextText = "What a song, but it wasn't quite there. Maybe the next song will be a hit...";
+    		break;
+    	case 2:
+    		summaryTextText = "It's getting faster now!";
+    		break;
+    	case 3:
+    		summaryTextText = "That one was close! But not quite Eurovision Quality. Maybe next song.";
+    		break;
+    	case 4:
+    		summaryTextText = "Now that's a tune! But the judges still don't like it...";
+    		break;
+    	case 5:
+    		summaryTextText = "So close!";
+    		break;
+    	case 6:
+    		summaryTextText = "I can feel myself getting better! I'm nearly there!";
+    		break;
+    	case 7:
+    		summaryTextText = "Forget the formula, let's just make a fun song!";
+    		break;
+    	case 8:
+    		summaryTextText = "Yes! This was it! Eurovision here we come!";
+    		break;
+    	}
+    }
+    let summaryTextStyle = { font: "65px Courier New", fill: "#000000", align: "center", wordWrap: true, wordWrapWidth:900};
+    let summaryText = game.add.text(game.world.centerX, 0.3 * game.height, summaryTextText, summaryTextStyle);
+    summaryText.align = 'center';
+    summaryText.anchor.setTo(0.5, 0.5);
+
+	let accuracyText = game.add.text(game.world.centerX, 0.5 * game.height, "Hit " + this.notesHit " out of " + (this.notesHit+this.notesMissed) + " notes!", summaryTextStyle);
+    accuracyText.align = 'center';
+    accuracyText.anchor.setTo(0.5, 0.5);
+
+    if (this.won) {
+	    let scoreText = game.add.text(game.world.centerX, 0.6 * game.height, "Score: " + this.score, summaryTextStyle);
+	    scoreText.align = 'center';
+	    scoreText.anchor.setTo(0.5, 0.5);
+	}
+
+
+    // game.state.start('LevelSelectState');
+}
+
 gamePlayState.prototype.playNote = function(noteIn, musicManager, instrument, note, duration, score) {
 	// this gets turned into an anonymous function which already has the correct note passed in etc.
 	// also need to determine how close to the beat you are
@@ -425,7 +508,6 @@ gamePlayState.prototype.increaseScore = function(noteIn) {
 			this.notesOnScreen--;
 			this.updateAccuracy(true);
 		}
-		//console.log("Score: " + this.score);
 	}
 }
 
@@ -448,7 +530,6 @@ gamePlayState.prototype.updateAccuracy = function(hitNote) {
 
 	this.accuracyIndex++;
 	this.accuracyIndex %= this.accuracyBufferLength;
-
 }
 
 gamePlayState.prototype.cursorDownListener = function(pointer) {
@@ -526,9 +607,11 @@ gamePlayState.prototype.deleteNote = function(note){
 
 
 gamePlayState.prototype.onLevelEnd = function() {
-	if (levelNumber == userLevelNum) {
-		userLevelNum++; // unlock the next level
+	if (!this.lost) {
+		if (levelNumber == userLevelNum) {
+			userLevelNum++; // unlock the next level
+		}
+		this.won = true;
+		this.playing = false;
 	}
-	this.won = true;
-	this.playing = false;
 }

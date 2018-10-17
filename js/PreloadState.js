@@ -47,6 +47,9 @@ PreloadState.prototype.preload = function() {
     game.load.image("playerL", "assets/sprites/PlayerML.png");
     game.load.image("playerR", "assets/sprites/PlayerMR.png");
 
+    game.load.image('ScoreDisplayBackground', 'assets/UI/ScoreWindow.png')
+
+
     // load audio:
     this.loadNotes();
 

@@ -35,7 +35,7 @@ HowToState.prototype.create = function() {
 
 HowToState.prototype.update = function() {
     // When starting the state scroll up the help text and stop in a point
-    if (this.helpText.top > game.height * 0.15) {
+    if (this.helpText.top > game.height * 0.11) {
         this.helpTextCurrentHeight -= game.height * 0.002;
         this.helpText.y = this.helpTextCurrentHeight;
     }
