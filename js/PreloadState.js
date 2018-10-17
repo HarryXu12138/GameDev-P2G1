@@ -9,7 +9,7 @@ PreloadState.prototype.preload = function() {
     game.load.spritesheet('AboutButton', 'assets/buttons/AboutButton.png', 206, 209);
     game.load.spritesheet('GoBackButton', 'assets/buttons/GoBackButton.png', 206, 212);
     game.load.spritesheet('HowToPlayButton', 'assets/buttons/HowToPlayButton.png', 205, 209);
-    game.load.spritesheet('GeneralButton', 'assets/buttons/GeneralButton.png', 211, 214)
+    game.load.spritesheet('GeneralButton', 'assets/buttons/GeneralButton.png', 211, 214);
     // End buttons
 
     // Sprite fonts
@@ -72,6 +72,7 @@ PreloadState.prototype.preload = function() {
     game.load.image("bg8", "assets/sprites/Backgrounds/bg_4.png");
 
     game.load.image("bg0", "assets/sprites/Backgrounds/bg_4.png");
+
     // End Main Game assets
 
     game.load.text('AboutText', 'assets/about.txt');
@@ -86,5 +87,5 @@ PreloadState.prototype.loadNotes = function() {
 	game.load.audio('p_d5_quarter', 'assets/audio/notes/piano_d5_quarter.mp3');
 	game.load.audio('p_e5_quarter', 'assets/audio/notes/piano_e5_quarter.mp3');
 	game.load.audio('p_g5_quarter', 'assets/audio/notes/piano_g5_quarter.mp3');
-	game.load.audio('p_a5_quarter', 'assets/audio/notes/piano_a5_quarter.mp3');
+	game.load.audio('p_a6_quarter', 'assets/audio/notes/piano_a6_quarter.mp3');
 }
