@@ -27,6 +27,10 @@ gamePlayState.prototype.init = function(levelNum){
 	beatline = 0;
 	difficultylevel = 1;
 	diffTimeTracker = 0;
+
+	this.planeSpeed = 0; // this is for animating the flight off screen nicer with a curve.
+	this.won = false; // this becomes true when the person wins duh. This can't happen in infinite mode.
+	this.lost = false; // this become true when the person looses.
 };
 
 gamePlayState.prototype.create = function(){
@@ -56,7 +60,6 @@ gamePlayState.prototype.create = function(){
 		bpm = 60;
 	}
 	console.info(bpm);
-
 
 
 	//Create the "staff" on the screen
@@ -95,16 +98,51 @@ gamePlayState.prototype.create = function(){
 
 
 	this.score = 0;
+	this.notesOnScreen = 0;
+	this.notesHit = 0;
+	this.notesMissed = 0;
 	this.stunTimer = 0; // if it's greater than zero we count down until it's zero and we aren't stunned
 	console.info("stun timer is " + this.stunTimer);
 	this.planeChannel = 2; // start at the middle channel
 	beatline = 500;
 
+
+
+	this.won = false;
+	this.lost = false;
+	this.playing = true;
+	spawning = true;
+
+	// this is for accuray counting
+	this.accuracyBuffer = [];
+	this.accuracyBufferLength = 32;
+	this.accuracyIndex = 0; // the current index to keep track of
+	this.accuracyCorrect = 0;
+	this.accuracyIncorrect = 0;
+	for(let i = 0; i < this.accuracyBufferLength; i++){
+		if (i % 2 === 0) { // i < (this.accuracyBufferLength + 1)/2 
+			this.accuracyBuffer.push(true);
+			this.accuracyCorrect++;
+		} else {
+			this.accuracyBuffer.push(false);
+			this.accuracyIncorrect++;
+		}
+	}
+	this.accuracy = this.accuracyCorrect / (this.accuracyBufferLength);
+	this.displayedAccuracy = this.accuracy;
+
+	this.accuracyBar = game.add.sprite(1125/4, 400, "line");
+	this.accuracyBar.height = 1125/2;
+	this.accuracyBar.angle = -90;
+	this.accuracyBar.width = 200;
+	// this.accuracyBar.width 
+	this.accuracyBar.alpha = 1;
+
 	// this is for determining plane swipes:
 	game.input.onDown.add((p) => {this.cursorDownListener(p); });
 	game.input.onUp.add((p) => {this.cursorUpListener(p); });
 	this.pointerDownX = null;
-	this.pointerDownY = null; // this is set by the oninput down and used for swipe determination.
+	this.pointerDownY = null; // this is set by the onInputDownnput down and used for swipe determination.
 	this.initializeUI();
 };
 
@@ -127,18 +165,35 @@ gamePlayState.prototype.update = function(){
 	//Check if the player and an obstacles are colliding
 	game.physics.arcade.overlap(this.player, this.obstacles, this.hitObstacle, null, this);
 
-	//tick down stun timer
-	if(this.stunTimer > 0)
-	{
-		this.stunTimer--;
-		//console.info(this.stunTimer);
-		if(this.stunTimer === 0)
-		{
-			//console.info("not stunned");
-			this.player.alpha = 1.0;
+	if (this.won) {
+		// then move the player sprite vertically upwards, and if they are off screen go to the win screen!
+		this.planeSpeed += .5; // accelerate each frame
+		this.player.y -= this.planeSpeed;
+		if (this.player.y < -450) {
+			// then move to the win screen, or for now, the level select screen
+			game.state.start('LevelSelectState');
+		}
+	} else if (this.lost) {
+		this.planeSpeed -= .5;
+		this.player.y -= this.planeSpeed;
+		if (this.player.y > 2500) {
+			game.state.start('LevelSelectState');
 		}
 	}
 
+	if (this.playing) {
+		//tick down stun timer
+		if(this.stunTimer > 0)
+		{
+			this.stunTimer--;
+			//console.info(this.stunTimer);
+			if(this.stunTimer === 0)
+			{
+				//console.info("not stunned");
+				this.player.alpha = 1.0;
+			}
+		}
+	}
 
 	//If it's been long enough since the last spawn, spawn stars
 	let d = new Date();
@@ -150,8 +205,10 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < currentLine.length; x++){
 				if(currentLine.charAt(x) === "1"){
 					//console.info("got here");
+					this.notesOnScreen++;
 					let note = this.notes.create((x*225) + 112.5/2, -128, "quarternote");
 					note.moving = true;
+					note.hasBeenTapped = false; // if it's been tapped and it falls off screen it doesn't loose you points duh.
 					note.height = 128;
 					note.width = 128;
 					note.score = 1001;
@@ -172,7 +229,7 @@ gamePlayState.prototype.update = function(){
 			}
 		}
 	}
-	else{
+	else {
 		//Code for randomly generating lines for endles mode\
 		if(d.getTime() - timeSince >= (60/bpm) * 1000)
 		{
@@ -190,7 +247,8 @@ gamePlayState.prototype.update = function(){
 					note.width = 128;	
 					note.score = 1001;
 					note.inputEnabled = true;
-					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
+					note.collumn = x;
+					note.events.onInputDown.add( (note) => { this.playNote(note, this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else{
 					let spawnProb = Math.random();
@@ -226,6 +284,9 @@ gamePlayState.prototype.update = function(){
 			
 			//this.notes.children[i].kill();
 			//this.notes.remove(this.notes.children[i]);
+			if (!this.notes.children[i].hasBeenTapped) {
+				this.noteFellOffScreen(this.notes.children[i]);
+			}
 		}
 	}
 
@@ -249,30 +310,93 @@ gamePlayState.prototype.update = function(){
 		}
 	}
 
+	if (!spawning && this.notesOnScreen <= 0 && levelNumber != 0 && !this.won && !this.lost) {
+		// then finish the level!
+		if (!this.won && !this.lost) {
+			this.onLevelEnd();
+		}
+	}
+	if (this.displayedAccuracy <= 0.01) {
+		console.log("Lost game");
+		this.won = false;
+		this.lost = true;
+		this.playing = false;
+		// start loosing!
+	}
+
+	if (this.playing) {
+		// update the score display to move the display closer to the correct accuracy
+		this.displayedAccuracy = (this.displayedAccuracy*2 + this.accuracy)/3;
+		// then move the sprite to the correct value
+		this.accuracyBar.height = (1125/2) * this.displayedAccuracy;
+		if (Math.abs(this.displayedAccuracy - this.accuracy) > .001) {
+			// then screenshake
+			this.usedScoreshake = true;
+			this.accuracyBar.angle = -90 + Math.random()*4-2;
+			this.accuracyBar.x = 1125/4 + Math.random()*20-10;
+			this.accuracyBar.y = 400 + Math.random()*20-10;
+		} else if (this.usedScoreshake) {
+			this.usedScoreshake = false;
+			this.accuracyBar.angle = -90;
+			this.accuracyBar.x = 1125/4;
+			this.accuracyBar.y = 400;
+		}
+	}
+
 	this.goBackButton.bringToTop();
 };
 
-gamePlayState.prototype.playNote = function(musicManager, instrument, note, duration, score) {
+gamePlayState.prototype.playNote = function(noteObject, musicManager, instrument, note, duration, score) {
 	// this gets turned into an anonymous function which already has the correct note passed in etc.
 	// also need to determine how close to the beat you are
 	// note is x from left to right
 	// duration is 0 = quarter, 1 = half, 2 = whole
 	//console.info("got here 2");
 	//console.info("music manager " + this.stunTimer);
-	if(this.stunTimer === 0)//only play music while not stunned
-	{
-		musicManager.playNote(0, note, duration);
+	if (this.playing && !noteObject.hasBeenTapped) {
+		if(this.stunTimer === 0)//only play music while not stunned
+		{
+			musicManager.playNote(0, note, duration);
+		}
 	}
 }
 
 gamePlayState.prototype.increaseScore = function(note) {
-	if(this.stunTimer === 0)//only incrase score while not stunned
-	{
-		this.score += note.score;
+	if (!note.hasBeenTapped && this.playing) {
+		if(this.stunTimer === 0)//only incrase score while not stunned
+		{
+			this.score += note.score;
+			note.hasBeenTapped = true;
+			this.notesHit++; // accuracy increases!
+			this.notesOnScreen--;
+			this.updateAccuracy(true);
+		}
+		//console.log("Score: " + this.score);
 	}
-	//console.log("Score: " + this.score);
 }
 
+gamePlayState.prototype.updateAccuracy = function(hitNote) {
+	// update it if you hit the note
+	if (this.accuracyBuffer[this.accuracyIndex]) {
+		// then remove one that you got correct
+		this.accuracyCorrect--;
+	} else {
+		this.accuracyIncorrect--; // remove one that you missed
+	}
+	this.accuracyBuffer[this.accuracyIndex] = hitNote;
+	if (hitNote) {
+		this.accuracyCorrect++;
+	} else {
+		this.accuracyIncorrect++;
+	}
+
+	this.accuracy = this.accuracyCorrect / (this.accuracyBufferLength);
+
+	this.accuracyIndex++;
+	this.accuracyIndex %= this.accuracyBufferLength;
+
+	console.log(this.accuracy);
+}
 
 gamePlayState.prototype.cursorDownListener = function(pointer) {
 	// passing in the gamestate because it needs a reference to it
@@ -321,9 +445,32 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 		//console.info("stunned");	
 		this.player.alpha = 0.80;
 		this.stunTimer = 100;
+		this.score -= 150;
+	}
+}
+
+gamePlayState.prototype.noteFellOffScreen = function(note) {
+	// this will only be when you miss a note so it falls off screen
+	if (!note.hasBeenTapped && this.playing) {
+		this.notesOnScreen--;
+		if (!note.hasBeenTapped) {
+			// then loose points!
+			this.score -= 200;
+			this.notesMissed++; // you missed a note because it fell off
+			this.updateAccuracy(false);
+		}
+		note.hasBeenTapped = true; // just call it tapped even if it hasn't been tapped
 	}
 }
 
 gamePlayState.prototype.resetPlane = function(){
 	this.player.loadTexture("playerN");
+}
+
+gamePlayState.prototype.onLevelEnd = function() {
+	if (levelNumber == userLevelNum) {
+		userLevelNum++; // unlock the next level
+	}
+	this.won = true;
+	this.playing = false;
 }
