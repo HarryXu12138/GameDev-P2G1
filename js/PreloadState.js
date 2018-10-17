@@ -33,6 +33,7 @@ PreloadState.prototype.preload = function() {
     game.load.text("1", "assets/levels/testSpawning.txt");
     // End Main Game assets
 
+    game.load.text('HowToText', 'assets/HowTo.txt')
     game.load.text('AboutText', 'assets/about.txt');
 };
 
