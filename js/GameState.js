@@ -35,15 +35,20 @@ gamePlayState.prototype.create = function(){
 
 	//game.stage.backgroundColor = "#4488AA";
 
+
 	this.backgroundStuff = game.add.group();
 
-	let background1 = this.backgroundStuff.create(0,0, "Level1");
-	background1.height = 2500;
-	background1.width = 1125;
+	//let background1 = this.backgroundStuff.create(0,0, "bg1.1");
+	//background1.height = 2500;
+	//background1.width = 1125;
 
-	let background2 = this.backgroundStuff.create(0,-2500, "Level1");
-	background2.height = 2500;
-	background2.width = 1125;
+	//let background2 = this.backgroundStuff.create(0,-2500, "bg1.1");
+	//background2.height = 2500;
+	//background2.width = 1125;
+
+	let backgroundF = game.add.sprite(0,-2500, "bg1.2");
+	backgroundF.height = 2500;
+	backgroundF.width = 1125;
 
 	//Pull info file for this level out of the cache and load it into line info, splitting it per line
 	if(levelNumber !== 0){
@@ -141,12 +146,13 @@ gamePlayState.prototype.update = function(){
 			for(let x = 0; x < currentLine.length; x++){
 				if(currentLine.charAt(x) === "1"){
 					//console.info("got here");
-					let note = this.notes.create((x*225) + 112.5/2, -128, "quarternote");
+					let note = this.notes.create((x*225) + 112.5/2, -128, "A1");
 					note.moving = true;
-					note.height = 128;
-					note.width = 128;
+					note.height = 512;
+					note.width = 512;
 					note.score = 1001;
 					note.inputEnabled = true;
+					note.animations.add("clicked", [0,1,2], 6, false);
 					note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
 				else if(currentLine.charAt(x) === "2"){
@@ -260,6 +266,13 @@ gamePlayState.prototype.increaseScore = function(note) {
 	if(this.stunTimer === 0)//only incrase score while not stunned
 	{
 		this.score += note.score;
+		//play the delete animation
+		note.animations.play("clicked");
+		note.moving = false;
+		let disappear = game.add.tween(note);
+		disappear.to({alpha: 0}, 500);
+		disappear.onComplete.add(this.deleteNote);
+		disappear.start();
 	}
 	//console.log("Score: " + this.score);
 }
@@ -317,4 +330,8 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 
 gamePlayState.prototype.resetPlane = function(){
 	this.player.loadTexture("playerN");
+}
+
+gamePlayState.prototype.deleteNote = function(note){
+	note.kill();
 }

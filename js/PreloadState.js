@@ -27,7 +27,9 @@ PreloadState.prototype.preload = function() {
     //game.load.image('StartBotton', 'assets/buttons/StartButtonNormal.jpg');
     //game.load.image('StartButtonOver', 'assets/buttons/StartButtonOver.jpg');
     game.load.image('Level1', 'assets/cloudprototype.png');
-    game.load.image("quarternote", "assets/notecloudQuarter.png");
+    //game.load.image("quarternote", "assets/notecloudQuarter.png");
+    //note images
+    game.load.spritesheet("A1", "assets/sprites/CloudA1.1.png", 512, 512);
     game.load.image("line", "assets/lineprototype2.png");
     game.load.image("player", "assets/player1.png");
     //game.load.spritesheet("playerSS", "assets/sprites/PlayerM.png", 512, 512, 3);
@@ -40,6 +42,11 @@ PreloadState.prototype.preload = function() {
 
     //load level files
     game.load.text("1", "assets/levels/testSpawning.txt");
+
+    //load backgrounds
+    game.load.image("cloudBG", "assets/sprites/Backgrounds/bg_cloud.png");
+    game.load.image("bg1.1", "assets/sprites/Backgrounds/bg_1.1.png");
+    game.load.image("bg1.2", "assets/sprites/Backgrounds/bg_1.2.png");
     // End Main Game assets
 
     game.load.text('AboutText', 'assets/about.txt');
