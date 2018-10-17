@@ -67,7 +67,7 @@ MainMenuState.prototype.UISettings = function() {
 
     // Settings for title text
     this.titleTextPosition = [0.5 * game.width, 0.15 * game.height];
-    this.titleText = 'Game Name\nGoes Here';
+    this.titleText = 'Airline Beats';
     this.titleSize = 128;
 
     // Settings for about button
