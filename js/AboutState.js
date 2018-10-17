@@ -43,6 +43,7 @@ AboutState.prototype.update = function() {
         menuPlaneY = menuPlaneY + Math.max(delta, -20);
     }
     this.plane.y = menuPlaneY;
+    this.goBackButton.bringToTop();
 };
 
 AboutState.prototype.UISettings = function() {
@@ -71,7 +72,7 @@ AboutState.prototype.initializeUI = function() {
     this.aboutText.maxWidth = 1050;
 
     // Add the button
-    this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
+    this.goBackButton = this.addButton(this.goBackButtonPosition, this.goBackButtonShape,
         this.goBackButtonSprite, this.goBackButtonSpriteFrames, hitGoBackButton);
 };
 
@@ -82,4 +83,5 @@ AboutState.prototype.addButton = function(position, shape, sprite, spriteFrames,
     newButton.anchor.setTo(0.5, 0.5);
     newButton.width = shape[0];
     newButton.height = shape[1];
+    return newButton;
 };
