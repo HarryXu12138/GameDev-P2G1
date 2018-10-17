@@ -6,6 +6,16 @@ AboutState.prototype.preload = function() {
 };
 
 AboutState.prototype.create = function() {
+    // add background art that scrolls
+    this.backgroundStuff = game.add.group();
+    let background1 = this.backgroundStuff.create(0,0, "bg4");
+    let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg4");
+
+    this.plane = game.add.sprite(562.5 - 175, menuPlaneY, "playerN");
+    this.plane.width = 350;
+    this.plane.height = 350;
+    // this.plane.enableBody = true;
+
     this.initializeUI();
 };
 
@@ -14,6 +24,25 @@ AboutState.prototype.update = function() {
     this.aboutTextCurrentHeight -= game.height * 0.002;
     this.aboutText.y = this.aboutTextCurrentHeight;
     if (this.aboutText.bottom < -100) game.state.start('MainMenuState');
+
+
+    // scroll the background
+    for(let i = 0; i < this.backgroundStuff.children.length; i++)
+    {
+        this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 8;
+        if(this.backgroundStuff.children[i].y >= this.backgroundStuff.children[i].height)
+        {
+            this.backgroundStuff.children[i].y = -1 * this.backgroundStuff.children[i].height;
+        }
+    }
+
+    // move the plane to where it should be
+    if (menuPlaneY > 2036) {
+        // move it towards the location
+        let delta = (2036 - menuPlaneY)/50;
+        menuPlaneY = menuPlaneY + Math.max(delta, -20);
+    }
+    this.plane.y = menuPlaneY;
 };
 
 AboutState.prototype.UISettings = function() {
