@@ -417,11 +417,7 @@ gamePlayState.prototype.update = function(){
 	}
 
 	this.scoreText.text = this.displayScore;
-	if (!this.showScoreUI) {
-		this.goBackButton.bringToTop();
-	} else {
-		this.goBackButton.kill();
-	}
+	this.goBackButton.bringToTop();
 };
 
 gamePlayState.prototype.showScoreUI = function() {

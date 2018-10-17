@@ -30,7 +30,8 @@ LevelSelectState.prototype.UISettings = function() {
     this.levelSelectBackGroundShape = [1000, 1600];
     // Deprecated but will keep it. This is for the fancy UI(version 1) UI
     // NVM
-    this.levelSelectBackGroundTextOffset = -630;
+    this.levelSelectBackGroundTextOffset = -430;
+    this.levelSelectBackGroundTextShape = [800, 400];
 
     // Initialize all level buttons
     this.levelButtonsSettings = [];
@@ -66,7 +67,7 @@ LevelSelectState.prototype.UISettings = function() {
         let buttonEnabled = true;
         // Lock buttons over the max user passed level
         if (i > userLevelNum) {
-            buttonFrames = [4, 4, 4, 4];
+            buttonFrames = [2, 2, 2, 2];
             buttonText = '';
             buttonEnabled = false;
         }
@@ -130,6 +131,8 @@ LevelSelectState.prototype.initializeUI = function() {
     let bkgroundText = game.add.sprite(this.levelSelectBackGroundPosition[0],
         this.levelSelectBackGroundPosition[1] + this.levelSelectBackGroundTextOffset, 'LevelSelectText')
     bkgroundText.anchor.setTo(0.5, 0.5)
+    bkgroundText.width = this.levelSelectBackGroundTextShape[0];
+    bkgroundText.height = this.levelSelectBackGroundTextShape[1];
     backGround.anchor.setTo(0.5, 0.5)
     backGround.width = this.levelSelectBackGroundShape[0];
     backGround.height = this.levelSelectBackGroundShape[1];
