@@ -386,13 +386,13 @@ gamePlayState.prototype.update = function(){
 	let scoreDelta = this.score - this.displayScore;
 	if (Math.abs(scoreDelta) <= 7 && scoreDelta != 0) {
 		this.displayScore += scoreDelta/Math.abs(scoreDelta);
-		this.scoreText.x = game.world.centerX + Math.random()*5 - 2.5;
-		this.scoreText.y = 0.15 * game.height + Math.random()*5 - 2.5;
+		this.scoreText.x = game.world.centerX + Math.random()*10 - 5;
+		this.scoreText.y = 0.15 * game.height + Math.random()*10 - 5;
 	}
 	else if (scoreDelta != 0) {
 		this.displayScore += Math.round(scoreDelta/5);
-		this.scoreText.x = game.world.centerX + Math.random()*10 - 5;
-		this.scoreText.y = 0.15 * game.height + Math.random()*10 - 5;
+		this.scoreText.x = game.world.centerX + Math.random()*20 - 10;
+		this.scoreText.y = 0.15 * game.height + Math.random()*20 - 10;
 	} else {
 		this.scoreText.x = game.world.centerX;
 		this.scoreText.y = 0.15 * game.height;
@@ -546,7 +546,29 @@ gamePlayState.prototype.increaseScore = function(noteIn) {
 	if (!noteIn.hasBeenTapped && this.playing) {
 		if(this.stunTimer === 0)//only incrase score while not stunned
 		{
-			this.score += noteIn.score;
+			// this is where we determine if we did well!
+			d = new Date();
+			let timeFromBeat = Math.min(Math.abs(d.getTime() - timeSince), Math.abs(d.getTime() - timeSince - 60/bpm*1000))/60000*bpm; // convert to fraction of beats off the beat
+			console.log(timeFromBeat);
+			if (timeFromBeat == 0) {
+				// then oh god thats amazing
+				this.score += noteIn.score * 2.5;
+			} else if (timeFromBeat < .05) {
+				this.score += noteIn.score*1.5;
+			} else if (timeFromBeat < .1) {
+				this.score += noteIn.score;
+			} else if (timeFromBeat < .2) {
+				this.score += noteIn.score*.9;
+			} else if (timeFromBeat < .3) {
+				this.score += noteIn.score*.75;
+			} else if (timeFromBeat < .4) {
+				this.score += noteIn.score*.6;
+			} else {
+				this.score += noteIn.score/2;
+			}
+			this.score = Math.round(this.score);
+
+			
 			noteIn.animations.play("clicked");
 			noteIn.moving = false;
 			noteIn.hasBeenTapped = true;
