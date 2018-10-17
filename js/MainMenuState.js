@@ -78,7 +78,7 @@ MainMenuState.prototype.UISettings = function() {
 
     // Settings for how-to-play button
     this.howToPlayButtonPosition = [0.5 * game.width, 0.65 * game.height];
-    this.howToPlayButtonShape = [300, 300];
+    this.howToPlayButtonShape = [200, 200];
     this.howToPlayButtonSprite = 'HowToPlayButton';
     this.howToPlayButtonSpriteFrames = [1, 0, 2, 2];
 };
