@@ -38,11 +38,11 @@ gamePlayState.prototype.create = function(){
 
 	this.backgroundStuff = game.add.group();
 
-	let background1 = this.backgroundStuff.create(0,0, "groundBG");
+	let background1 = this.backgroundStuff.create(0,0, "bg" + levelNumber);
 	//background1.height = 2500;
 	//background1.width = 1125;
 
-	let background2 = this.backgroundStuff.create(0,-2500, "groundBG");
+	let background2 = this.backgroundStuff.create(0,-2500, "bg" + levelNumber);
 	background2.y = -1 * background2.height;
 	//background2.height = 2500;
 	//background2.width = 1125;
