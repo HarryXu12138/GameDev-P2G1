@@ -61,12 +61,12 @@ PreloadState.prototype.preload = function() {
     //load level files
     game.load.text("1", "assets/levels/level1.txt");
     game.load.text("2", "assets/levels/level2.txt");
-    game.load.text("3", "assets/levels/testSpawning.txt");
-    game.load.text("4", "assets/levels/testSpawning.txt");
-    game.load.text("5", "assets/levels/testSpawning.txt");
-    game.load.text("6", "assets/levels/testSpawning.txt");
-    game.load.text("7", "assets/levels/testSpawning.txt");
-    game.load.text("8", "assets/levels/testSpawning.txt");
+    game.load.text("3", "assets/levels/level3.txt");
+    game.load.text("4", "assets/levels/level4.txt");
+    game.load.text("5", "assets/levels/level5.txt");
+    game.load.text("6", "assets/levels/level6.txt");
+    game.load.text("7", "assets/levels/level7.txt");
+    game.load.text("8", "assets/levels/level8.txt");
 
 
     //load backgrounds

@@ -456,16 +456,16 @@ gamePlayState.prototype.showScoreUI = function() {
     		summaryTextText = "That one was close! But not quite Eurovision Quality. Maybe next song!";
     		break;
     	case 2:
-    		summaryTextText = "It's getting faster now!";
-    		break;
-    	case 3:
-    		summaryTextText = "What a song, but it wasn't quite there. Maybe the next song will be a hit...";
-    		break;
-    	case 4:
     		summaryTextText = "Now that's a tune! But the judges still don't like it...";
     		break;
+    	case 3:
+    		summaryTextText = "It's getting faster now!";
+    		break;
+    	case 4:
+    		summaryTextText = "What a song, but it wasn't quite there. Maybe the next song will be a hit...";
+    		break;
     	case 5:
-    		summaryTextText = "So close!";
+    		summaryTextText = "This song is so close!";
     		break;
     	case 6:
     		summaryTextText = "I can feel myself getting better! I'm nearly there!";
