@@ -12,6 +12,12 @@ MainMenuState.prototype.preload = function() {
 };
 
 MainMenuState.prototype.create = function() {
+    // add background art that scrolls
+    this.backgroundStuff = game.add.group();
+    let background1 = this.backgroundStuff.create(0,0, "bg4");
+    let background2 = this.backgroundStuff.create(0, -1 * background1.height, "bg4");
+
+
     // Initiate UI stuff with UI settings
     this.initializeUI();
 };
@@ -21,6 +27,16 @@ MainMenuState.prototype.update = function() {
     if (game.time.totalElapsedSeconds() - this.lastBkgroundUpdate > 1) {
         this.lastBkgroundUpdate = game.time.totalElapsedSeconds();
         game.stage.backgroundColor = Phaser.ArrayUtils.getRandomItem(this.colors);
+    }
+
+    // scroll the background
+    for(let i = 0; i < this.backgroundStuff.children.length; i++)
+    {
+        this.backgroundStuff.children[i].y = this.backgroundStuff.children[i].y + 8;
+        if(this.backgroundStuff.children[i].y >= this.backgroundStuff.children[i].height)
+        {
+            this.backgroundStuff.children[i].y = -1 * this.backgroundStuff.children[i].height;
+        }
     }
 };
 
