@@ -40,6 +40,9 @@ HowToState.prototype.create = function() {
     // Initialize the help text
     this.helpText = game.add.bitmapText(this.helpTextStartPosition[0], this.helpTextStartPosition[1],
         'DefaultFont', this.helpTextContent, this.helpTextSize);
+    // this.helpText = game.add.text(this.helpTextStartPosition[0], this.helpTextStartPosition[1],
+    //     this.helpTextContent, { font: "64px Courier New", fill: "#FFFFFF", align: "center", wordWrap: true, wordWrapWidth:800});
+    
     this.helpText.align = 'left';
     this.helpText.anchor.setTo(0, 0);
     this.helpText.maxWidth = 1050;

@@ -100,8 +100,10 @@ MainMenuState.prototype.initializeUI = function() {
         this.howToPlayButtonSprite, this.howToPlayButtonSpriteFrames, hitHowToPlayButton);
 
     // Add title text
-    let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
-        'DefaultFont', this.titleText, this.titleSize);
+    // let titleText = game.add.bitmapText(this.titleTextPosition[0], this.titleTextPosition[1],
+    //     'DefaultFont', this.titleText, this.titleSize);
+    let titleText = game.add.text(this.titleTextPosition[0], this.titleTextPosition[1],
+        this.titleText, { font: "200px Courier New", fill: "#FFFFFF", align: "center", wordWrap: true, wordWrapWidth:800});
     titleText.align = 'center';
     titleText.anchor.setTo(0.5, 0.5);
 };

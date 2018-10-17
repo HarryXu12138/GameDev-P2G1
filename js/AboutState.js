@@ -64,6 +64,8 @@ AboutState.prototype.initializeUI = function() {
     // Initialize the text
     this.aboutText = game.add.bitmapText(this.aboutTextStartPosition[0], this.aboutTextStartPosition[1],
         'DefaultFont', this.aboutTextContent, this.aboutTextSize);
+    // this.aboutText = game.add.text(this.aboutTextStartPosition[0], this.aboutTextStartPosition[1],
+    //     this.aboutTextContent, { font: "64px Courier New", fill: "#FFFFFF", align: "center", wordWrap: true, wordWrapWidth:800});
     this.aboutText.align = 'left';
     this.aboutText.anchor.setTo(0, 0);
     this.aboutText.maxWidth = 1050;
