@@ -110,7 +110,7 @@ gamePlayState.prototype.create = function(){
 	this.notesHit = 0;
 	this.notesMissed = 0;
 	this.stunTimer = 0; // if it's greater than zero we count down until it's zero and we aren't stunned
-	console.info("stun timer is " + this.stunTimer);
+	// console.info("stun timer is " + this.stunTimer);
 	this.planeChannel = 2; // start at the middle channel
 	beatline = 500;
 
@@ -239,6 +239,7 @@ gamePlayState.prototype.update = function(){
 					note.height = 256;
 					note.width = 256;
 					note.score = 100;
+					note.channel = x;
 					note.inputEnabled = true;
 					note.animations.add("clicked", [0,1,2], 6, false);
 					this.notesOnScreen++;
@@ -247,7 +248,7 @@ gamePlayState.prototype.update = function(){
 					note.hasBeenTapped = false; // if it's been tapped and it falls off screen it doesn't loose you points duh.
 					// note.height = 128;
 					// note.width = 128;
-					// note.score = 1001;
+					// note.score = 100;
 					// note.inputEnabled = true;
 					note.events.onInputDown.add( (note) => { this.playNote(note, this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 				}
@@ -283,7 +284,8 @@ gamePlayState.prototype.update = function(){
 					note.moving = true;
 					note.height = 256;
 					note.width = 256;	
-					note.score = 1001;
+					note.score = 100;
+					note.channel = x;
 					note.inputEnabled = true;
 					// note.events.onInputDown.add( (note) => { this.playNote(this.musicManager, 0, x, 0, 100); this.increaseScore(note); }, this);
 					note.collumn = x;
@@ -319,6 +321,12 @@ gamePlayState.prototype.update = function(){
 		if(this.notes.children[i].moving)
 		{
 			this.notes.children[i].y = this.notes.children[i].y + bpm/5;
+		}
+		if (this.notes.children[i].bottom > 2036 + 50 && this.notes.children[i].y < 2036 + 50) {
+			// then the plane is colliding with the note
+			if (!this.notes.children[i].hasBeenTapped) {
+				this.planeHitNote(this.notes.children[i])
+			}
 		}
 		//console.info(i);
 		if(this.notes.children[i].y >= 2436){
@@ -549,7 +557,7 @@ gamePlayState.prototype.increaseScore = function(noteIn) {
 			// this is where we determine if we did well!
 			d = new Date();
 			let timeFromBeat = Math.min(Math.abs(d.getTime() - timeSince), Math.abs(d.getTime() - timeSince - 60/bpm*1000))/60000*bpm; // convert to fraction of beats off the beat
-			console.log(timeFromBeat);
+			// console.log(timeFromBeat);
 			if (timeFromBeat == 0) {
 				// then oh god thats amazing
 				this.score += noteIn.score * 2.5;
@@ -654,6 +662,16 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 		this.stunTimer = 100;
 		this.score -= 150;
 	}
+}
+
+gamePlayState.prototype.planeHitNote = function(note){
+	
+	if(this.stunTimer === 0 && note.channel === this.planeChannel)//if not stunned, activate stun
+	{
+		this.playNote(note, this.musicManager, 0, note.channel, 0, 100);
+		this.increaseScore(note); 
+	}
+
 }
 
 gamePlayState.prototype.noteFellOffScreen = function(note) {
