@@ -17,7 +17,7 @@ let diffTimeTracker = 0;
 
 gamePlayState.prototype.init = function(levelNum){
 	levelNumber = levelNum;
-	levelNumber = 0;
+	//levelNumber = 0;
 	lineInfo = [];
 	d = new Date();
 	timeSince = d.getTime();
