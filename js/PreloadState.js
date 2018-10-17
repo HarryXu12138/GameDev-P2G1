@@ -49,8 +49,8 @@ PreloadState.prototype.preload = function() {
     this.loadNotes();
 
     //load level files
-    game.load.text("1", "assets/levels/testSpawning.txt");
-    game.load.text("2", "assets/levels/testSpawning.txt");
+    game.load.text("1", "assets/levels/level1.txt");
+    game.load.text("2", "assets/levels/level2.txt");
     game.load.text("3", "assets/levels/testSpawning.txt");
     game.load.text("4", "assets/levels/testSpawning.txt");
     game.load.text("5", "assets/levels/testSpawning.txt");
