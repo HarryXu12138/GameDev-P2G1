@@ -140,11 +140,21 @@ gamePlayState.prototype.create = function(){
 	this.accuracy = this.accuracyCorrect / (this.accuracyBufferLength);
 	this.displayedAccuracy = this.accuracy;
 
+
 	this.accuracyBar = game.add.sprite(1125/8, 140, "accuracyBar");
 	this.accuracyBar.width = 1125/4*3;
 	this.accuracyBar.height = 200;
 	// this.accuracyBar.width 
 	this.accuracyBar.alpha = 1;
+	if (this.accuracy <= .25) {
+		this.accuracyBar.tint = 0xff3330;
+	} else if (this.accuracy <= .4) {
+		this.accuracyBar.tint = 0xfffa64;
+	} else if (this.accuracy <= .6) {
+		this.accuracyBar.tint = 0xa7ff2c;
+	} else {
+		this.accuracyBar.tint = 0x52ff33;
+	}
 
 	// this is for determining plane swipes:
 	game.input.onDown.add((p) => {this.cursorDownListener(p); });
@@ -610,6 +620,15 @@ gamePlayState.prototype.updateAccuracy = function(hitNote) {
 
 	this.accuracyIndex++;
 	this.accuracyIndex %= this.accuracyBufferLength;
+	if (this.accuracy <= .25) {
+		this.accuracyBar.tint = 0xff3330;
+	} else if (this.accuracy <= .4) {
+		this.accuracyBar.tint = 0xfffa64;
+	} else if (this.accuracy <= .6) {
+		this.accuracyBar.tint = 0xa7ff2c;
+	} else {
+		this.accuracyBar.tint = 0x52ff33;
+	}
 }
 
 gamePlayState.prototype.cursorDownListener = function(pointer) {
