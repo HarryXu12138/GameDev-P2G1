@@ -1,0 +1,10 @@
+Fly your plane while coming up with music for the next Eurovision contest!
+
+Tap on the notes in the clouds to score points- the closer you get to tapping it on the beat, the more points you score. 
+But, you lose points if a note leaves the screen!
+
+Swipe left and right to make your plane dodge various obstacles- if you get hit, you'll lose points and you won't be able
+to tap on notes for a short time.
+
+If you miss too many notes too quickly, you lose the level and have to try again. Make it to the end of each level to 
+unlock the next one!
