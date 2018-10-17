@@ -56,7 +56,7 @@ PreloadState.prototype.preload = function() {
     //game.load.image("cloudBG", "assets/sprites/Backgrounds/bg_cloud.png");
     game.load.image("bg1", "assets/sprites/Backgrounds/bg_1.1.png");
     //game.load.image("bg1.2", "assets/sprites/Backgrounds/bg_1.2.png");
-    game.load.image("bg2", "assets/sprites/Backgrounds/bg_2.1.png");
+    game.load.image("bg2", "assets/sprites/Backgrounds/bg_2.1clouded.png");
     game.load.image("bg3", "assets/sprites/Backgrounds/bg_3.1.png");
     game.load.image("bg4", "assets/sprites/Backgrounds/bg_4.png");
 
