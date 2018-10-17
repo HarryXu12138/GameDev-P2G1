@@ -102,4 +102,7 @@ PreloadState.prototype.loadNotes = function() {
 
     game.load.audio('cymbalCrash1', 'assets/audio/cymbals/34818__zin__crash-1-hit-2-cut.wav');
     game.load.audio('cymbalCrash2', 'assets/audio/cymbals/34819__zin__crash-2-hit-1.wav');
+    game.load.audio('snare', 'assets/audio/drums/232014__seidhepriest__ambassador-6.wav');
+    game.load.audio('kick', 'assets/audio/drums/183097__dwsd__bd-doitlive.wav');
+
 }

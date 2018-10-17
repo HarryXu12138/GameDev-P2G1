@@ -5,7 +5,9 @@ class MusicManager {
 
 		this.pianoNotes = []
 		this.createPianoNotes();
-		this.cymbalNotes = [this.game.add.audio("cymbalCrash1"), this.game.add.audio("cymbalCrash2")]
+		this.cymbalNotes = [this.game.add.audio("cymbalCrash1"), this.game.add.audio("cymbalCrash2")];
+		this.kick = this.game.add.audio("kick");
+		this.snare = this.game.add.audio("snare");
 	}
 
 	createPianoNotes() {
@@ -23,6 +25,14 @@ class MusicManager {
 
 	playRandomCymbal() {
 		this.cymbalNotes[Math.floor(Math.random()*this.cymbalNotes.length)].play();
+	}
+
+	playRhythmNote(note) {
+		if (note % 4 == 3) {
+			this.snare.play();
+		} else {
+			this.kick.play();
+		}
 	}
 
 	playNote(instrument, note, duration) {
