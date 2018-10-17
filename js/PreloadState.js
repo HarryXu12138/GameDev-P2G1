@@ -11,7 +11,8 @@ PreloadState.prototype.preload = function() {
     game.load.spritesheet('AboutButton', 'assets/buttons/AboutButton.png', 206, 209);
     // game.load.spritesheet('GoBackButton', 'assets/buttons/GoBackButton.png', 206, 212);
     game.load.image('GoBackButton', 'assets/UI/UI4.png')
-    game.load.spritesheet('HowToPlayButton', 'assets/buttons/HowToPlayButton.png', 205, 209);
+    // game.load.spritesheet('HowToPlayButton', 'assets/buttons/HowToPlayButton.png', 205, 209);
+    game.load.image('HowToPlayButton', 'assets/UI/UI6.png')
     game.load.spritesheet('GeneralButton', 'assets/buttons/level_select.png', 256, 256);
     // End buttons
 
