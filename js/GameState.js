@@ -129,7 +129,7 @@ gamePlayState.prototype.create = function(){
 	this.accuracyCorrect = 0;
 	this.accuracyIncorrect = 0;
 	for(let i = 0; i < this.accuracyBufferLength; i++){
-		if (i % 2 === 0) { // i < (this.accuracyBufferLength + 1)/2 
+		if (i % 2 === 0) { // i < (this.accuracyBufferLength + 1)/2
 			this.accuracyBuffer.push(true);
 			this.accuracyCorrect++;
 		} else {
@@ -144,7 +144,7 @@ gamePlayState.prototype.create = function(){
 	this.accuracyBar = game.add.sprite(1125/8, 140, "accuracyBar");
 	this.accuracyBar.width = 1125/4*3;
 	this.accuracyBar.height = 200;
-	// this.accuracyBar.width 
+	// this.accuracyBar.width
 	this.accuracyBar.alpha = 1;
 	if (this.accuracy <= .25) {
 		this.accuracyBar.tint = 0xff3330;
@@ -293,7 +293,7 @@ gamePlayState.prototype.update = function(){
 					let note = this.notes.create((x*225) - 20, -256, "" + x);
 					note.moving = true;
 					note.height = 256;
-					note.width = 256;	
+					note.width = 256;
 					note.score = 100;
 					note.channel = x;
 					note.inputEnabled = true;
@@ -318,7 +318,7 @@ gamePlayState.prototype.update = function(){
 		}
 		if(d.getTime() - diffTimeTracker >= 1000 *2 * 60 && difficultylevel < 4)
 		{
-			
+
 			difficultylevel++;
 			bpm = bpm + 30;
 			diffTimeTracker = new Date();
@@ -340,7 +340,7 @@ gamePlayState.prototype.update = function(){
 		}
 		//console.info(i);
 		if(this.notes.children[i].y >= 2436){
-			
+
 			//this.notes.children[i].kill();
 			//this.notes.remove(this.notes.children[i]);
 			if (!this.notes.children[i].hasBeenTapped) {
@@ -354,7 +354,7 @@ gamePlayState.prototype.update = function(){
 		this.obstacles.children[i].y = this.obstacles.children[i].y + bpm/5;
 		//console.info(i);
 		if(this.obstacles.children[i].y >= 2436){
-			
+
 			//this.notes.children[i].kill();
 			//this.obstacles.remove(this.obstacles.children[i]);
 		}
@@ -417,7 +417,11 @@ gamePlayState.prototype.update = function(){
 	}
 
 	this.scoreText.text = this.displayScore;
-	this.goBackButton.bringToTop();
+	if (!this.showScoreUI) {
+		this.goBackButton.bringToTop();
+	} else {
+		this.goBackButton.kill();
+	}
 };
 
 gamePlayState.prototype.showScoreUI = function() {
@@ -586,7 +590,7 @@ gamePlayState.prototype.increaseScore = function(noteIn) {
 			}
 			this.score = Math.round(this.score);
 
-			
+
 			noteIn.animations.play("clicked");
 			noteIn.moving = false;
 			noteIn.hasBeenTapped = true;
@@ -672,11 +676,11 @@ gamePlayState.prototype.cursorUpListener = function(pointer) {
 }
 
 gamePlayState.prototype.hitObstacle = function(player, obst){
-	
+
 	if(this.stunTimer === 0 && obst.channel === this.planeChannel)//if not stunned, activate stun
 	{
 		this.musicManager.playRandomCymbal();
-		//console.info("stunned");	
+		//console.info("stunned");
 		this.player.alpha = 0.80;
 		this.stunTimer = 100;
 		this.score -= 150;
@@ -684,11 +688,11 @@ gamePlayState.prototype.hitObstacle = function(player, obst){
 }
 
 gamePlayState.prototype.planeHitNote = function(note){
-	
+
 	if(this.stunTimer === 0 && note.channel === this.planeChannel)//if not stunned, activate stun
 	{
 		this.playNote(note, this.musicManager, 0, note.channel, 0, 100);
-		this.increaseScore(note); 
+		this.increaseScore(note);
 	}
 
 }
